@@ -3,15 +3,16 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Http\Resources\MissingValue;
 
-class RegionsCollection extends ResourceCollection
+class JSONAPICollection extends ResourceCollection
 {
     /**
      * The resource that this resource collects.
      *
      * @var string
      */
-    public $collects = RegionsResource::class;
+    public $collects = JSONAPIResource::class;
 
     /**
      * Transform the resource collection into an array.
@@ -23,6 +24,13 @@ class RegionsCollection extends ResourceCollection
     {
         return [
             'data' => $this->collection,
+            'included' => $this->mergeIncludedRelations($request),
         ];
+    }
+
+    private function mergeIncludedRelations($request)
+    {
+        $includes = $this->collection->flatMap->included($request)->unique()->values();
+        return $includes->isNotEmpty() ? $includes : new MissingValue();
     }
 }

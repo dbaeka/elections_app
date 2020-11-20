@@ -3,11 +3,11 @@
 namespace App\Models;
 
 use App\Models\Base\AbstractAPIModel;
-use Database\Factories\RegionsFactory;
+use Database\Factories\ConstituenciesFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
-class Region extends AbstractAPIModel
+
+class Constituency extends AbstractAPIModel
 {
     use HasFactory;
 
@@ -18,18 +18,23 @@ class Region extends AbstractAPIModel
      */
     protected static function newFactory()
     {
-        return RegionsFactory::new();
+        return ConstituenciesFactory::new();
     }
 
-    protected $fillable = ['name', 'capital'];
+    protected $fillable = ['name'];
 
     public function type()
     {
-        return 'regions';
+        return 'constituencies';
+    }
+
+    public function district()
+    {
+        return $this->belongsTo(District::class);
     }
 
     public function districts()
     {
-        return $this->hasMany(District::class);
+        return $this->district();
     }
 }

@@ -5,10 +5,10 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Base\APIController;
 use App\Http\Resources\JSONAPICollection;
 use App\Http\Resources\JSONAPIResource;
-use App\Models\Region;
+use App\Models\Constituency;
 use Illuminate\Http\Request;
 
-class RegionsController extends APIController
+class ConstituenciesController extends APIController
 {
     /**
      * Display a listing of the resource.
@@ -18,17 +18,19 @@ class RegionsController extends APIController
     public function index()
     {
         //
-        return $this->service->fetchResources(Region::class, 'regions');
+        return $this->service->fetchResources(Constituency::class, 'constituencies');
     }
+
 
     /**
      * Display the specified resource.
      *
+     * @param \App\Models\Constituency $constituency
      * @return JSONAPIResource
      */
-    public function show($region)
+    public function show($constituency)
     {
         //
-        return $this->service->fetchResource(Region::class, $region, 'regions');
+        return $this->service->fetchResource(Constituency::class, $constituency, 'constituencies');
     }
 }

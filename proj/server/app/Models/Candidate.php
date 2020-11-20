@@ -3,13 +3,14 @@
 namespace App\Models;
 
 use App\Models\Base\AbstractAPIModel;
-use Database\Factories\RegionsFactory;
+use Database\Factories\CandidatesFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
-class Region extends AbstractAPIModel
+
+class Candidate extends AbstractAPIModel
 {
     use HasFactory;
+
 
     /**
      * Create a new factory instance for the model.
@@ -18,18 +19,23 @@ class Region extends AbstractAPIModel
      */
     protected static function newFactory()
     {
-        return RegionsFactory::new();
+        return CandidatesFactory::new();
     }
 
-    protected $fillable = ['name', 'capital'];
+    protected $fillable = ['pres', 'vice'];
 
     public function type()
     {
-        return 'regions';
+        return 'candidates';
     }
 
-    public function districts()
+    public function party()
     {
-        return $this->hasMany(District::class);
+        return $this->belongsTo(Party::class);
+    }
+
+    public function parties()
+    {
+        return $this->party();
     }
 }
