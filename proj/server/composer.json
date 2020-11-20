@@ -13,7 +13,9 @@
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.12",
-        "laravel/tinker": "^2.5"
+        "laravel/sanctum": "^2.8",
+        "laravel/tinker": "^2.5",
+        "wackystudio/laravel-test-watcher": "^1.0"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
@@ -57,8 +59,38 @@
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
         ],
+        "tinker-about": [
+            "@php artisan tinker"
+        ],
         "seed-database": [
             "@php artisan migrate --seed"
+        ],
+        "migrate-database": [
+            "@php artisan migrate"
+        ],
+        "make-provider": [
+            "@php artisan make:provider {NAME}Provider"
+        ],
+        "make-api-resource-controller": [
+            "@php artisan make:controller API/{NAME}Controller --resource --api"
+        ],
+        "make-api-resource-specific-controller": [
+            "@php artisan make:controller API/RegionController --resource --api --model=Region"
+        ],
+        "make-api-resource-all": [
+            "@php artisan make:model -a -r Region"
+        ],
+        "create-seeder": [
+            "@php artisan make:seeder RegionsTableSeeder"
+        ],
+        "setup-dev": [
+            "@php artisan dev:setup"
+        ],
+        "watch-tests": [
+            "@php artisan tests:watch"
+        ],
+        "make-middleware": [
+            "@php artisan make:middleware Check{NAME}"
         ]
     }
 }
