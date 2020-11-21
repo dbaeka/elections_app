@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Models\User;
+use Illuminate\Support\Str;
 
 class SetupDevEnvironment extends Command
 {
@@ -55,10 +56,19 @@ class SetupDevEnvironment extends Command
     public function CreateJohnDoeUser()
     {
         $this->info('Creating John Doe user');
-        $user = User::factory(1)->create()->first();
+        $user = User::create(
+            [
+                'name' => "John Doe",
+                'email' => "johndoe@gmail.com",
+                'email_verified_at' => now(),
+                'phone' => '0503695535',
+                'password' => bcrypt('secret'), // password
+                'remember_token' => Str::random(10),
+            ]
+        );
         $this->info($user->name . ' created');
-        $this->warn('Phone: ' .$user->phone);
-        $this->warn('Password: ' .$user->password);
+        $this->warn('Phone: ' . $user->phone);
+        $this->warn('Password: ' . $user->password);
         return $user;
     }
 

@@ -18,7 +18,6 @@ class ConstituenciesTableSeeder extends Seeder
         //
         $file = database_path('seeders/defaults/constituencies.csv');
         $csv_reader = new LargeCSVReader($file,",");
-
         $cur_time = now();
 
         foreach ($csv_reader->csvToArray() as $data) {
