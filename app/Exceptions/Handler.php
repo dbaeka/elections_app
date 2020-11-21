@@ -107,7 +107,15 @@ class Handler extends ExceptionHandler
                         'details' => 'You are not authenticated',
                     ]]
             ], 403);
+        } else {
+            return response()->json([
+                'errors' => [
+                    [
+                        'title' => 'Header Wrong or Missing Attribute',
+                        'details' => 'Expecting json request [accept: application/vnd.api+json]',
+                    ]]
+            ], 403);
         }
-        return redirect()->guest($exception->redirectTo() ?? route('login'));
+//        return redirect()->guest($exception->redirectTo() ?? route('login'));
     }
 }

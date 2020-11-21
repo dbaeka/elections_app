@@ -61,6 +61,9 @@
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
         ],
+        "post-install-cmd": [
+            "@setup-dev"
+        ],
         "tinker-about": [
             "@php artisan tinker"
         ],
@@ -80,7 +83,7 @@
             "@php artisan make:controller API/ResultController --resource --api --model=Results"
         ],
         "make-api-resource-all": [
-            "@php artisan make:model -a -r PollingStations"
+            "@php artisan make:model -a -r Stations"
         ],
         "create-seeder": [
             "@php artisan make:seeder DistrictsTableSeeder"

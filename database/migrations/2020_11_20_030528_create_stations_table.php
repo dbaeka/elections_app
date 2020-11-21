@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePollingStationsTable extends Migration
+class CreateStationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,12 @@ class CreatePollingStationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('polling_stations', function (Blueprint $table) {
-            $table->id();
+        Schema::create('stations', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('name');
+            $table->string('code');
+            $table->integer('constituency_id')->nullable();
+            $table->unsignedBigInteger('num_voters');
             $table->timestamps();
         });
     }
@@ -26,6 +30,6 @@ class CreatePollingStationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('polling_stations');
+        Schema::dropIfExists('stations');
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Constituency;
+use App\Models\Party;
 use App\Utilities\LargeCSVReader;
 use Illuminate\Database\Seeder;
 
@@ -28,7 +28,7 @@ class PartiesTableSeeder extends Seeder
                 $data[$key]['created_at'] = $cur_time;
                 $data[$key]['updated_at'] = $cur_time;
             }
-            Constituency::insert($data);
+            Party::insert($data);
         }
     }
 }

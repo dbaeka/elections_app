@@ -2,11 +2,12 @@
 
 namespace Database\Seeders;
 
-use App\Models\Constituency;
+
+use App\Models\Station;
 use App\Utilities\LargeCSVReader;
 use Illuminate\Database\Seeder;
 
-class PollingStationsTableSeeder extends Seeder
+class StationsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -28,7 +29,7 @@ class PollingStationsTableSeeder extends Seeder
                 $data[$key]['created_at'] = $cur_time;
                 $data[$key]['updated_at'] = $cur_time;
             }
-            Constituency::insert($data);
+            Station::insert($data);
         }
     }
 }

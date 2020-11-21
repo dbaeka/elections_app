@@ -18,6 +18,9 @@ class DatabaseSeeder extends Seeder
             RegionsTableSeeder::class,
             DistrictsTableSeeder::class,
             ConstituenciesTableSeeder::class,
+            PartiesTableSeeder::class,
+            CandidatesTableSeeder::class,
+            StationsTableSeeder::class,
 
         ]);
     }

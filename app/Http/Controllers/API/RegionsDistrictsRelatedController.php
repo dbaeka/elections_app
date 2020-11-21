@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class RegionsDistrictsRelatedController extends APIController
 {
     //
-    public function index(Region $region)
+    public function show(Region $region)
     {
         return $this->service->fetchRelated($region, 'districts');
     }

@@ -24,6 +24,8 @@ class User extends Authenticatable
         'password',
         'phone',
         'role',
+        'fcm_token',
+        'station_id'
     ];
 
     /**
@@ -34,6 +36,8 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'email_verified_at',
+        'email'
     ];
 
     /**
@@ -74,5 +78,15 @@ class User extends Authenticatable
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ]);
+    }
+
+    public function station()
+    {
+        return $this->belongsTo(Station::class);
+    }
+
+    public function stations()
+    {
+        return $this->station();
     }
 }

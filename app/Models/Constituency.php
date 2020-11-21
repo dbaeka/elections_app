@@ -37,4 +37,9 @@ class Constituency extends AbstractAPIModel
     {
         return $this->district();
     }
+
+    public function stations()
+    {
+        return $this->hasMany(Station::class);
+    }
 }

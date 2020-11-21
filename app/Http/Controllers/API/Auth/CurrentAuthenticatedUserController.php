@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\API\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Http\Resources\JSONAPIResource;
+use App\Http\Controllers\Base\APIController;
+use App\Models\User;
 use Illuminate\Http\Request;
 
-class CurrentAuthenticatedUserController extends Controller
+class CurrentAuthenticatedUserController extends APIController
 {
     //
     public function show(Request $request)
     {
-        return new JSONAPIResource($request->user());
+        return $this->service->fetchResource(User::class, $request->user()->id, 'users');
     }
 }

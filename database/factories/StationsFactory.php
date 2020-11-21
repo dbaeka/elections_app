@@ -2,17 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\PollingStation;
+use App\Models\Station;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class PollingStationsFactory extends Factory
+class StationsFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = PollingStation::class;
+    protected $model = Station::class;
 
     /**
      * Define the model's default state.
@@ -23,6 +23,10 @@ class PollingStationsFactory extends Factory
     {
         return [
             //
+            'name' => 'L A Upper Prim Sch Bredi',
+            'code' => 'H060207',
+            'constituency_id' => 186,
+            'num_voters' => 137,
         ];
     }
 }

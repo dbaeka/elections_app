@@ -30,7 +30,7 @@ class Party extends AbstractAPIModel
 
     public function candidate()
     {
-        return $this->hasOne(Candidate::class);
+        return $this->hasMany(Candidate::class);
     }
 
     public function candidates()

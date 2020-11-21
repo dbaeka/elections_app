@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\MissingValue;
 use Illuminate\Support\Str;
@@ -57,7 +58,7 @@ class JSONAPIResource extends JsonResource
             return new MissingValue();
         }
 
-        if ($this->$relationship() instanceof BelongsTo) {
+        if ($this->$relationship() instanceof BelongsTo || $this->$relationship() instanceof HasOne) {
             return new JSONAPIIdentifierResource($this->$relationship);
         }
 
@@ -78,6 +79,8 @@ class JSONAPIResource extends JsonResource
     {
         return collect($this->relations())
             ->filter(function ($resource) {
+                if ($resource === null)
+                    return false;
                 return $resource->collection !== null;
             })->flatMap->toArray($request);
     }
@@ -86,6 +89,10 @@ class JSONAPIResource extends JsonResource
     {
         return collect(config("jsonapi.resources.{$this->type()}.relationships"))->map(function ($relation) {
             $modelOrCollection = $this->whenLoaded($relation['method']);
+
+            if ($modelOrCollection === null) {
+                return null;
+            }
 
             if ($modelOrCollection instanceof Model) {
                 $modelOrCollection = collect([new JSONAPIResource($modelOrCollection)]);

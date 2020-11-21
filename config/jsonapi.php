@@ -38,7 +38,7 @@ return [
                 'name', 'created_at', 'updated_at',
             ],
             'allowedIncludes' => [
-                'districts'
+                'districts', 'stations'
             ],
             'allowedFilters' => [
                 AllowedFilter::partial('name'),
@@ -47,6 +47,92 @@ return [
                 [
                     'type' => 'districts',
                     'method' => 'districts',
+                ],
+                [
+                    'type' => 'stations',
+                    'method' => 'stations',
+                ],
+            ],
+            'validationRules' => [
+                'create' => [
+                    'data.attributes.name' => 'required|string',
+                ],
+                'update' => [
+                    'data.attributes.name' => 'sometimes|required|string'
+                ]
+            ],
+        ],
+        'parties' => [
+            'allowedSorts' => [
+                'name', 'short_name', 'created_at', 'updated_at',
+            ],
+            'allowedIncludes' => [
+                'candidates'
+            ],
+            'allowedFilters' => [
+                AllowedFilter::partial('name'),
+                AllowedFilter::partial('short_name'),
+            ],
+            'relationships' => [
+                [
+                    'type' => 'candidates',
+                    'method' => 'candidates',
+                ]
+            ],
+            'validationRules' => [
+                'create' => [
+                    'data.attributes.name' => 'required|string',
+                ],
+                'update' => [
+                    'data.attributes.name' => 'sometimes|required|string'
+                ]
+            ],
+        ],
+        'stations' => [
+            'allowedSorts' => [
+                'name', 'code', 'num_voters', 'created_at', 'updated_at',
+            ],
+            'allowedIncludes' => [
+                'users', 'constituencies'
+            ],
+            'allowedFilters' => [
+                AllowedFilter::partial('name'),
+                AllowedFilter::partial('code'),
+            ],
+            'relationships' => [
+                [
+                    'type' => 'constituencies',
+                    'method' => 'constituencies',
+                ],
+                [
+                    'type' => 'users',
+                    'method' => 'users',
+                ]
+            ],
+            'validationRules' => [
+                'create' => [
+                    'data.attributes.name' => 'required|string',
+                ],
+                'update' => [
+                    'data.attributes.name' => 'sometimes|required|string'
+                ]
+            ],
+        ],
+        'candidates' => [
+            'allowedSorts' => [
+                'pres', 'vice', 'created_at', 'updated_at',
+            ],
+            'allowedIncludes' => [
+                'parties'
+            ],
+            'allowedFilters' => [
+                AllowedFilter::partial('pres'),
+                AllowedFilter::partial('vice'),
+            ],
+            'relationships' => [
+                [
+                    'type' => 'parties',
+                    'method' => 'parties',
                 ]
             ],
             'validationRules' => [
@@ -86,7 +172,9 @@ return [
         ],
         'users' => [
             'allowedSorts' => [],
-            'allowedIncludes' => [],
+            'allowedIncludes' => [
+                'stations'
+            ],
             'allowedFilters' => [
                 AllowedFilter::exact('role'),
                 AllowedFilter::partial('phone'),
@@ -97,6 +185,10 @@ return [
                 'update' => []
             ],
             'relationships' => [
+                [
+                    'type' => 'stations',
+                    'method' => 'stations',
+                ]
             ]
         ]
     ],
