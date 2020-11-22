@@ -25,7 +25,8 @@ class User extends Authenticatable
         'phone',
         'role',
         'fcm_token',
-        'station_id'
+        'station_id',
+        'is_active'
     ];
 
     /**
@@ -88,5 +89,10 @@ class User extends Authenticatable
     public function stations()
     {
         return $this->station();
+    }
+
+    public function results()
+    {
+        return $this->hasMany(Result::class);
     }
 }

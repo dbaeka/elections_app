@@ -17,10 +17,11 @@ class CheckSanctumAbilities
     public function handle(Request $request, Closure $next, ...$abilities)
     {
         foreach ($abilities as $ability) {
-            if (!$request->user()->tokenCan($ability)) {
-                abort(400, "Access Denied");
+            if ($request->user()->tokenCan($ability)) {
+                return $next($request);
             }
         }
+        abort(400, "Access Denied");
         return $next($request);
     }
 }

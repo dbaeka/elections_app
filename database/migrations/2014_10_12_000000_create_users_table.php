@@ -20,9 +20,10 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique()->nullable();
             $table->integer('station_id')->nullable();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('fcm_token');
+            $table->string('fcm_token')->nullable();
             $table->string('password');
             $table->string('phone')->unique();
+            $table->boolean('is_active')->default(null)->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

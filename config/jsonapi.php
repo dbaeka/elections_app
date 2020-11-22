@@ -24,14 +24,7 @@ return [
                     'method' => 'constituencies',
                 ]
             ],
-            'validationRules' => [
-                'create' => [
-                    'data.attributes.name' => 'required|string',
-                ],
-                'update' => [
-                    'data.attributes.name' => 'sometimes|required|string'
-                ]
-            ],
+            'validationRules' => [],
         ],
         'constituencies' => [
             'allowedSorts' => [
@@ -53,14 +46,54 @@ return [
                     'method' => 'stations',
                 ],
             ],
+            'validationRules' => [],
+        ],
+        'results' => [
+            'allowedSorts' => [
+                'is_approved', 'created_at', 'updated_at',
+            ],
+            'allowedIncludes' => [
+                'users', 'images',
+            ],
+            'allowedFilters' => [
+                AllowedFilter::exact('is_approved'),
+            ],
+            'relationships' => [
+                [
+                    'type' => 'users',
+                    'method' => 'users',
+                ],
+                [
+                    'type' => 'images',
+                    'method' => 'images',
+                ],
+            ],
             'validationRules' => [
                 'create' => [
-                    'data.attributes.name' => 'required|string',
+                    'data.attributes.records' => 'required|array',
                 ],
                 'update' => [
-                    'data.attributes.name' => 'sometimes|required|string'
+                    'data.attributes.records' => 'sometimes|required|array'
                 ]
             ],
+        ],
+        'images' => [
+            'allowedSorts' => [
+                'name', 'created_at', 'updated_at',
+            ],
+            'allowedIncludes' => [
+                'results',
+            ],
+            'allowedFilters' => [
+                AllowedFilter::partial('name'),
+            ],
+            'relationships' => [
+                [
+                    'type' => 'results',
+                    'method' => 'results',
+                ],
+            ],
+            'validationRules' => [],
         ],
         'parties' => [
             'allowedSorts' => [
@@ -79,14 +112,7 @@ return [
                     'method' => 'candidates',
                 ]
             ],
-            'validationRules' => [
-                'create' => [
-                    'data.attributes.name' => 'required|string',
-                ],
-                'update' => [
-                    'data.attributes.name' => 'sometimes|required|string'
-                ]
-            ],
+            'validationRules' => [],
         ],
         'stations' => [
             'allowedSorts' => [
@@ -109,14 +135,7 @@ return [
                     'method' => 'users',
                 ]
             ],
-            'validationRules' => [
-                'create' => [
-                    'data.attributes.name' => 'required|string',
-                ],
-                'update' => [
-                    'data.attributes.name' => 'sometimes|required|string'
-                ]
-            ],
+            'validationRules' => [],
         ],
         'candidates' => [
             'allowedSorts' => [
@@ -135,14 +154,7 @@ return [
                     'method' => 'parties',
                 ]
             ],
-            'validationRules' => [
-                'create' => [
-                    'data.attributes.name' => 'required|string',
-                ],
-                'update' => [
-                    'data.attributes.name' => 'sometimes|required|string'
-                ]
-            ],
+            'validationRules' => [],
         ],
         'regions' => [
             'allowedSorts' => [
@@ -161,19 +173,12 @@ return [
                     'method' => 'districts',
                 ]
             ],
-            'validationRules' => [
-                'create' => [
-                    'data.attributes.name' => 'required|string',
-                ],
-                'update' => [
-                    'data.attributes.name' => 'sometimes|required|string'
-                ]
-            ],
+            'validationRules' => [],
         ],
         'users' => [
-            'allowedSorts' => [],
+            'allowedSorts' => ['name', 'email', 'is_active', 'role', 'phone'],
             'allowedIncludes' => [
-                'stations'
+                'stations', 'results'
             ],
             'allowedFilters' => [
                 AllowedFilter::exact('role'),
@@ -182,12 +187,27 @@ return [
                 AllowedFilter::partial('email'),
             ],
             'validationRules' => [
-                'update' => []
+                'create' => [
+                    'data.attributes.phone' => 'required|string',
+                    'data.attributes.password' => 'required|string',
+                    'data.attributes.role' => 'required|string|in:polling,engine,display,admin',
+                    'data.attributes.name' => 'required|string',
+                ],
+                'update' => [
+                    'data.attributes.phone' => 'sometimes|required|string',
+                    'data.attributes.password' => 'sometimes|required|string',
+                    'data.attributes.role' => 'sometimes|required|string|in:polling,engine,display,admin',
+                    'data.attributes.name' => 'sometimes|required|string',
+                ]
             ],
             'relationships' => [
                 [
                     'type' => 'stations',
                     'method' => 'stations',
+                ],
+                [
+                    'type' => 'results',
+                    'method' => 'results',
                 ]
             ]
         ]

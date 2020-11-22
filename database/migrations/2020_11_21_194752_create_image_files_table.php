@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateResultsTable extends Migration
+class CreateImageFilesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateResultsTable extends Migration
      */
     public function up()
     {
-        Schema::create('results', function (Blueprint $table) {
+        Schema::create('image_files', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->json('records');
-            $table->boolean('is_approved')->default(false);
-            $table->uuid('user_id')->nullable();
+            $table->string('name')->nullable();
+            $table->string('file_path')->nullable();
+            $table->integer('result_id')->nullable();
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class CreateResultsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('results');
+        Schema::dropIfExists('image_files');
     }
 }

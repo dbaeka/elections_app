@@ -27,7 +27,7 @@ class UserFactory extends Factory
             'email' => "johndoe@gmail.com",
             'email_verified_at' => now(),
             'phone' => '0503695535',
-            'role' => 'polling',
+            'role' => 'admin',
             'station_id' => "1",
             'fcm_token' => 'secret',
             'password' => bcrypt('secret'), // password

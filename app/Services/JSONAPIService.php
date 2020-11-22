@@ -6,6 +6,8 @@ namespace App\Services;
 use App\Http\Resources\JSONAPICollection;
 use App\Http\Resources\JSONAPIIdentifierResource;
 use App\Http\Resources\JSONAPIResource;
+use App\Http\Resources\UserResource;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -32,6 +34,17 @@ class JSONAPIService
         return new JSONAPIResource($query);
     }
 
+    public function fetchMultipleResources($model, $id = 0, $type = '')
+    {
+        if ($model instanceof Model) {
+            return new JSONAPICollection($model);
+        }
+        $query = QueryBuilder::for($model::where('user_id', $id))
+            ->allowedIncludes(config("jsonapi.resources.{$type}.allowedIncludes"))
+            ->jsonPaginate();
+        return new JSONAPICollection($query);
+    }
+
     /**
      * For index
      * @param string $modelClass
@@ -54,10 +67,11 @@ class JSONAPIService
             if ($model->$relationshipName() instanceof BelongsTo) {
                 $this->updateToOneRelationship($model, $relationshipName, $contents['data']['id']);
             }
-            if($model->$relationshipName() instanceof BelongsToMany){
+            if ($model->$relationshipName() instanceof BelongsToMany) {
                 $this->updateManyToManyRelationships($model,
                     $relationshipName, collect($contents['data'])->pluck('id'));
-            } }
+            }
+        }
         $model->load(array_keys($relationships));
     }
 
@@ -87,10 +101,15 @@ class JSONAPIService
      * @param $model
      * @param $attributes
      * @param null $relationships
+     * @param null $id
      * @return JSONAPIResource
      */
-    public function updateResource($model, $attributes, $relationships = null)
+    public function updateResource($model, $attributes, $relationships = null, $id = null)
     {
+        $modelID = $model->id;
+        if ($modelID === null) {
+            $model = $model::findOrFail($id);
+        }
         $model->update($attributes);
         if ($relationships) {
             $this->handleRelationship($relationships, $model);

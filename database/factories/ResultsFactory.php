@@ -23,6 +23,8 @@ class ResultsFactory extends Factory
     {
         return [
             //
+            'records' => [1 => 1000, 2 => 4000],
+            'user_id' => 1,
         ];
     }
 }

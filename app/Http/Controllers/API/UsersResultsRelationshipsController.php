@@ -8,16 +8,16 @@ use App\Models\Candidate;
 use App\Models\User;
 use Illuminate\Http\Request;
 
-class UsersStationsRelationshipsController extends APIController
+class UsersResultsRelationshipsController extends APIController
 {
     //
     public function index(User $user)
     {
-        return $this->service->fetchRelationship($user, 'stations');
+        return $this->service->fetchRelationship($user, 'results');
     }
 
     public function update(JSONAPIRelationshipRequest $request, User $user)
     {
-        return $this->service->updateToOneRelationship($user, 'stations', $request->input('data.id'));
+        return $this->service->updateToManyRelationships($user, 'results', $request->input('data.*.id'));
     }
 }

@@ -4,17 +4,15 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Base\APIController;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\JSONAPIRequest;
+use App\Http\Resources\JSONAPICollection;
+use App\Http\Resources\JSONAPIResource;
 use App\Models\Result;
 use App\Services\JSONAPIService;
 use Illuminate\Http\Request;
 
 class ResultsController extends APIController
 {
-    public function __construct(JSONAPIService $service)
-    {
-        parent::__construct($service);
-        $this->authorizeResource(Result::class, 'result');
-    }
 
     protected function resourceMethodsWithoutModels()
     {
@@ -25,55 +23,55 @@ class ResultsController extends APIController
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return JSONAPICollection
      */
     public function index()
     {
         //
+        return $this->service->fetchResources(Result::class, 'results');
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param JSONAPIRequest $request
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function store(JSONAPIRequest $request)
     {
         //
+        $user = $request->user();
+        $relationship = [
+            $user->type() => [
+                "data" => [
+                    "type" => $user->type(),
+                    "id" => $user->id,
+                ]
+            ]
+        ];
+
+        return $this->service->createResource(Result::class, $request->input('data.attributes'), $relationship);
     }
 
     /**
      * Display the specified resource.
-     *
-     * @param \App\Models\Result $results
-     * @return \Illuminate\Http\Response
+     * @param $result
+     * @return JSONAPIResource
      */
-    public function show(Result $results)
+    public function show($result)
     {
         //
+        return $this->service->fetchResource(Result::class, $result, 'results');
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Result $results
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Result $results)
-    {
-        //
-    }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param \App\Models\Result $results
-     * @return \Illuminate\Http\Response
+     * Update resource
+     * @param JSONAPIRequest $request
+     * @param Result $result
+     * @return JSONAPIResource
      */
-    public function destroy(Result $results)
+    public function update(JSONAPIRequest $request, Result $result)
     {
         //
+        return $this->service->updateResource($result, $request->input('data.attributes'), $request->input('data.relationships'), $request->input('data.id'));
     }
 }
