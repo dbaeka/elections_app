@@ -12,7 +12,8 @@ class Result extends AbstractAPIModel
     use HasFactory;
 
     protected $casts = [
-        'records' => 'array'
+        'records' => 'array',
+//        'approved' => 'boolean',
     ];
 
     /**
@@ -26,6 +27,7 @@ class Result extends AbstractAPIModel
     }
 
     protected $fillable = ['records', 'is_approved'];
+
 
     public function type()
     {

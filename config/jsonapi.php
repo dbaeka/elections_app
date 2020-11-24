@@ -192,6 +192,7 @@ return [
                     'data.attributes.password' => 'required|string',
                     'data.attributes.role' => 'required|string|in:polling,engine,display,admin',
                     'data.attributes.name' => 'required|string',
+                    'data.attributes.fcm_token' => 'required_if:data.attributes.role,engine,admin,display'
                 ],
                 'update' => [
                     'data.attributes.phone' => 'sometimes|required|string',

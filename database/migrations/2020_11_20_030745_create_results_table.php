@@ -16,7 +16,7 @@ class CreateResultsTable extends Migration
         Schema::create('results', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->json('records');
-            $table->boolean('is_approved')->default(false);
+            $table->boolean('is_approved')->nullable();
             $table->uuid('user_id')->nullable();
             $table->timestamps();
         });

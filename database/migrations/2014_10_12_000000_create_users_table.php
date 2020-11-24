@@ -23,7 +23,7 @@ class CreateUsersTable extends Migration
             $table->string('fcm_token')->nullable();
             $table->string('password');
             $table->string('phone')->unique();
-            $table->boolean('is_active')->default(null)->nullable();
+            $table->boolean('is_active')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

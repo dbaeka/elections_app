@@ -47,8 +47,10 @@ class ResultsController extends APIController
                 ]
             ]
         ];
+        $attributes =  $request->input('data.attributes');
 
-        return $this->service->createResource(Result::class, $request->input('data.attributes'), $relationship);
+        $attributes['is_approved'] = false;
+        return $this->service->createResource(Result::class, $attributes, $relationship);
     }
 
     /**
