@@ -19,30 +19,30 @@ class EnsureCorrectAPIHeaders
      */
     public function handle(Request $request, Closure $next)
     {
-        if ($request->headers->get('accept') !== 'application/vnd.api+json') {
+        if ($request->headers->get('accept') !== 'application/json') {
 //            return new Response('', 406);
             return response()->json([
                 'errors' => [
                     [
                         'title' => 'Header missing value or wrong value',
-                        'details' => 'Header missing accept:application/vnd.api+json',
+                        'details' => 'Header missing accept:application/json',
                     ]
                 ]
-            ], 406, ['content-type' => 'application/vnd.api+json']);
+            ], 406, ['content-type' => 'application/json']);
         }
 
 
         if ($request->isMethod('POST') || $request->isMethod('PATCH')) {
-            if ($request->header('content-type') !== 'application/vnd.api+json') {
+            if ($request->header('content-type') !== 'application/json') {
 //                return new Response('', 415);
                 return response()->json([
                     'errors' => [
                         [
                             'title' => 'Header missing value or wrong value',
-                            'details' => 'Header missing content-type:application/vnd.api+json',
+                            'details' => 'Header missing content-type:application/json',
                         ]
                     ]
-                ], 415,['content-type' => 'application/vnd.api+json']);
+                ], 415,['content-type' => 'application/json']);
             }
         }
         return $this->addCorrectContentType($next($request));
@@ -50,7 +50,7 @@ class EnsureCorrectAPIHeaders
 
     private function addCorrectContentType(BaseResponse $response)
     {
-        $response->headers->set('content-type', 'application/vnd.api+json');
+        $response->headers->set('content-type', 'application/json');
         return $response;
     }
 }
