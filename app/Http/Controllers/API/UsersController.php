@@ -41,10 +41,11 @@ class UsersController extends APIController
     public function store(JSONAPIRequest $request)
     {
         //
-        $attributes =  $request->input('data.attributes');
+        $attributes = collect($request->input('data.attributes'));
+        $attributes = $attributes->replace(['password' => bcrypt($attributes->get('password'))]);
         if ($attributes['role'] === 'polling')
             $attributes['is_active'] = false;
-        return $this->service->createResource(User::class, $attributes, $request->input('data.relationships'));
+        return $this->service->createResource(User::class, $attributes->all(), $request->input('data.relationships'));
     }
 
 

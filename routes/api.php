@@ -37,7 +37,7 @@ Route::prefix('v1')->group(function () {
 
         if (!$user || !Hash::check($request->password, $user->password)) {
             throw ValidationException::withMessages([
-                'phone' => ["The provided number is incorrect"]
+                'password' => ["Incorrect password"]
             ]);
         }
 
