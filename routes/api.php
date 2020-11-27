@@ -54,7 +54,6 @@ Route::prefix('v1')->group(function () {
         ]);
     });
 
-
     Route::middleware(['auth:sanctum', 'json.api.headers'])->group(function () {
         // Everyone can
         Route::middleware(['sanctum.abilities:basic'])->group(function () {
@@ -130,8 +129,7 @@ Route::prefix('v1')->group(function () {
             // Upload History
             Route::get('/upload_history', [\App\Http\Controllers\API\UploadHistoryController::class, 'index']);
 
-            // Image get
-            Route::get('/uploads/{filename}', [\App\Http\Controllers\API\ImageFileController::class, 'download'])->withoutMiddleware(['json.api.headers']);
+
         });
 
         // For polling and admin
