@@ -24,7 +24,14 @@ use \App\Http\Controllers\API\UsersController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::prefix('v1')->group(function () {
+
+
+// Image get
+Route::get('/uploads/{filename}', [\App\Http\Controllers\API\ImageFileController::class, 'download'])
+    ->middleware(['auth:sanctum', 'sanctum.abilities:basic']);
+
+
+Route::prefix('api/v1')->group(function () {
     Route::post('/authenticate', function (Request $request) {
         $request->validate([
             'phone' => 'required|regex:/^[0-9\-\(\)\/\+\s]*$/',

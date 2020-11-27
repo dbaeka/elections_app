@@ -17,10 +17,6 @@ use Illuminate\Support\Facades\Route;
 //    return view('welcome');
 //});
 
-// Image get
-Route::get('/uploads/{filename}', [\App\Http\Controllers\API\ImageFileController::class, 'download'])
-    ->middleware(['auth:sanctum', 'sanctum.abilities:basic']);
-
 Route::fallback(function () {
     return response()->json([
         'message' => 'Page Not Found. If error persists.'], 404);
