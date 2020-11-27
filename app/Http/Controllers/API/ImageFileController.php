@@ -109,7 +109,8 @@ class ImageFileController extends APIController
         $image = new ImageFile;
         $image->name = $fileName;
         $image->file_path = $filePath;
-        $this->service->updateToOneRelationship($image, 'results', $result->id);
+        if ($result_id)
+            $this->service->updateToOneRelationship($image, 'results', $result->id);
         $image->save();
 
         return new JSONAPIResource($image);

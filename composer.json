@@ -73,9 +73,7 @@
         "migrate-database": [
             "@php artisan migrate"
         ],
-        "post-install-cmd": [
-            "@setup-dev"
-        ],
+
         "make-provider": [
             "@php artisan make:provider {NAME}Provider"
         ],
