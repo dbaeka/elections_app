@@ -68,7 +68,7 @@ class ImageFileController extends APIController
         $result = ($result_id) ? Result::findOrFail($result_id)->first() : $user->results()->latest()->first();
         $fileName = $this->generateFileName($station->name) . '.' . $file->extension();
 
-        $filePath = $file->storeAs('uploads', $fileName, 'public');
+        $filePath = $file->storeAs('uploads', $fileName);
 
         $image = new ImageFile;
         $image->name = $fileName;
@@ -104,7 +104,7 @@ class ImageFileController extends APIController
         $fileName = $this->generateFileName($station->name) . '.' . File::extension($originalName);
 
         $filePath = "uploads/" . $fileName;
-        if (!Storage::put("public/" . $filePath, $file->stream(), 'public'))
+        if (!Storage::put($filePath, $file->stream()))
             throw new CannotWriteFileException('Failed to save image');
         $image = new ImageFile;
         $image->name = $fileName;
@@ -115,6 +115,12 @@ class ImageFileController extends APIController
 
         return new JSONAPIResource($image);
 
+    }
+
+    public function download($filename)
+    {
+        $path = storage_path('app/uploads/' . $filename);
+        return Image::make($path)->response();
     }
 
 

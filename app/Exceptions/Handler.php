@@ -118,23 +118,24 @@ class Handler extends ExceptionHandler
 
     protected function unauthenticated($request, AuthenticationException $exception)
     {
-        if ($request->expectsJson()) {
-            return response()->json([
-                'errors' => [
-                    [
-                        'title' => 'Unauthenticated',
-                        'details' => 'You are not authenticated',
-                    ]]
-            ], 403);
-        } else {
-            return response()->json([
-                'errors' => [
-                    [
-                        'title' => 'Header Wrong or Missing Attribute',
-                        'details' => 'Expecting json request [accept: application/json',
-                    ]]
-            ], 403);
-        }
+//        if ($request->expectsJson()) {
+        return response()->json([
+            'errors' => [
+                [
+                    'title' => 'Unauthenticated',
+                    'details' => 'You are not authenticated',
+                ]]
+        ], 403);
+//        }
+//        else {
+//            return response()->json([
+//                'errors' => [
+//                    [
+//                        'title' => 'Wrong Content Type',
+//                        'details' => 'Expecting json request',
+//                    ]]
+//            ], 403);
+//        }
 //        return redirect()->guest($exception->redirectTo() ?? route('login'));
     }
 }

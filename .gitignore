@@ -14,3 +14,4 @@ yarn-error.log
 storage/app/public/uploads/*.png
 storage/app/public/uploads/*.jpeg
 storage/app/public/uploads/*.jpg
+storage/app/uploads

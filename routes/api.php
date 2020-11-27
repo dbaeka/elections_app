@@ -130,6 +130,8 @@ Route::prefix('v1')->group(function () {
             // Upload History
             Route::get('/upload_history', [\App\Http\Controllers\API\UploadHistoryController::class, 'index']);
 
+            // Image get
+            Route::get('/uploads/{filename}', [\App\Http\Controllers\API\ImageFileController::class, 'download'])->withoutMiddleware(['json.api.headers']);
         });
 
         // For polling and admin
