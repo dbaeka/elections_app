@@ -100,7 +100,8 @@ class ImageFileController extends APIController
         $result_id = $attributes->get('result_id');
         $station = $user->stations()->firstOrFail();
         $result = ($result_id) ? Result::findOrFail($result_id) : $user->results()->latest()->first();
-        $fileName = $this->generateFileName($station->name) . '.' . Str::of($file->mime())->basename();
+        $originalName = $attributes['filename'];
+        $fileName = $this->generateFileName($station->name) . '.' . File::extension($originalName);
 
         $filePath = "uploads/" . $fileName;
         if (!Storage::put("public/" . $filePath, $file->stream(), 'public'))
