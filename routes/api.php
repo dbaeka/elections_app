@@ -140,6 +140,7 @@ Route::prefix('v1')->group(function () {
 
             //  Images
             Route::post('/images', [\App\Http\Controllers\API\ImageFileController::class, 'fileUpload'])->withoutMiddleware(['json.api.headers']);
+            Route::post('/images/base64', [\App\Http\Controllers\API\ImageFileController::class, 'fileBase64Upload']);
         });
 
         // For admin

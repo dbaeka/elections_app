@@ -130,7 +130,7 @@ class Handler extends ExceptionHandler
                 'errors' => [
                     [
                         'title' => 'Header Wrong or Missing Attribute',
-                        'details' => 'Expecting json request [accept: application/vnd.api+json]',
+                        'details' => 'Expecting json request [accept: application/json]',
                     ]]
             ], 403);
         }

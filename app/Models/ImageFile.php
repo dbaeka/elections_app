@@ -14,13 +14,17 @@ class ImageFile extends AbstractAPIModel
         'file_path'
     ];
 
-    protected $hidden = [
-        'file_path'
-    ];
 
     public function type()
     {
         return 'images';
+    }
+
+    public function allowedAttributes()
+    {
+        $image = parent::allowedAttributes();
+        $path = $image->get('file_path');
+        return $image->replace(['file_path' => asset($path)]);
     }
 
     public function result()
