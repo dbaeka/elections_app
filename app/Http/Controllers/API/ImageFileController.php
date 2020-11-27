@@ -84,10 +84,11 @@ class ImageFileController extends APIController
     {
         $request->validate([
             'data.attributes.content' => 'required|string',
-            'data.attributes.result_id' => 'sometimes|required'
+            'data.attributes.result_id' => 'sometimes|required',
+            'data.attributes.filename' => 'required|string'
         ]);
 
-        $attributes = $request->input('data.attributes');
+        $attributes = collect($request->input('data.attributes'));
         $image = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $attributes['content']));
         $file = Image::make($image);
         if (!$file->stream()->isReadable()) {
@@ -96,9 +97,9 @@ class ImageFileController extends APIController
 
         //save file
         $user = $request->user();
-        $result_id = $request->result_id;
+        $result_id = $attributes->get('result_id');
         $station = $user->stations()->firstOrFail();
-        $result = ($result_id) ? Result::findOrFail($result_id)->first() : $user->results()->latest()->first();
+        $result = ($result_id) ? Result::findOrFail($result_id) : $user->results()->latest()->first();
         $fileName = $this->generateFileName($station->name) . '.' . Str::of($file->mime())->basename();
 
         $filePath = "uploads/" . $fileName;

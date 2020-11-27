@@ -42,6 +42,15 @@ class Result extends AbstractAPIModel
 //            $ca = Candidate::find($key)->pres;
 //            $p = 10;
 //        }
+        $images = $this->load(['images' => function ($query) {
+            $query->orderBy('created_at', 'desc');
+        }])->images;
+        $paths = $images->pluck('file_path')->map(function ($value) {
+            return asset($value);
+        });
+        $latest = $paths->first();
+        $results->prepend($paths, 'all_images');
+        $results->prepend($latest, 'recent_image');
         return $results->replace(['records' => json_decode($results->get('records'))]);
     }
 
