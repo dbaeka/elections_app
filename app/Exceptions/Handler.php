@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Facades\Storage;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Throwable;
 use Illuminate\Support\Str;
@@ -130,7 +131,7 @@ class Handler extends ExceptionHandler
                 'errors' => [
                     [
                         'title' => 'Header Wrong or Missing Attribute',
-                        'details' => 'Expecting json request [accept: application/json]',
+                        'details' => 'Expecting json request [accept: application/json',
                     ]]
             ], 403);
         }

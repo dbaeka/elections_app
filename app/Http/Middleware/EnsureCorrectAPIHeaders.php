@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response as BaseResponse;
 
@@ -33,7 +34,7 @@ class EnsureCorrectAPIHeaders
 
 
         if ($request->isMethod('POST') || $request->isMethod('PATCH')) {
-            if ($request->header('content-type') !== 'application/json') {
+            if (!Str::of($request->header('content-type'))->contains("application/json")) {
 //                return new Response('', 415);
                 return response()->json([
                     'errors' => [
