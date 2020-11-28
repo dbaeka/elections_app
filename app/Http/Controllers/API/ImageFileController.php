@@ -99,7 +99,7 @@ class ImageFileController extends APIController
         $user = $request->user();
         $result_id = $attributes->get('result_id');
         $station = $user->stations()->firstOrFail();
-        $result = ($result_id) ? Result::findOrFail($result_id) : $user->results()->latest()->first();
+        $result = ($result_id) ? Result::findOrFail($result_id) : $user->results()->latest();
         $originalName = $attributes['filename'];
         $fileName = $this->generateFileName($station->name) . '.' . File::extension($originalName);
 
@@ -109,7 +109,7 @@ class ImageFileController extends APIController
         $image = new ImageFile;
         $image->name = $fileName;
         $image->file_path = $filePath;
-        if ($result_id)
+        if ($result)
             $this->service->updateToOneRelationship($image, 'results', $result->id);
         $image->save();
 
