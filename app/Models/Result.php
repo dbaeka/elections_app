@@ -45,7 +45,7 @@ class Result extends AbstractAPIModel
         $images = $this->load(['images' => function ($query) {
             $query->orderBy('created_at', 'desc');
         }])->images;
-        $paths = $images->pluck('file_path')->map(function ($value) {
+        $paths = $images->pluck('name')->map(function ($value) {
             return url("/api/v1/get_image/" . $value);
         });
         $latest = $paths->first();
