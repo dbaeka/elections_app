@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use http\Exception\BadHeaderException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
@@ -22,28 +23,30 @@ class EnsureCorrectAPIHeaders
     {
         if ($request->headers->get('accept') !== 'application/json') {
 //            return new Response('', 406);
-            return response()->json([
-                'errors' => [
-                    [
-                        'title' => 'Header missing value or wrong value',
-                        'details' => 'Header missing accept:application/json',
-                    ]
-                ]
-            ], 406, ['content-type' => 'application/json']);
+            throw  new \Error("Header missing accept:application/json", 406);
+//            return response()->json([
+//                'errors' => [
+//                    [
+//                        'title' => 'Header missing value or wrong value',
+//                        'details' => 'Header missing accept:application/json',
+//                    ]
+//                ]
+//            ], 406, ['content-type' => 'application/json']);
         }
 
 
         if ($request->isMethod('POST') || $request->isMethod('PATCH')) {
             if (!Str::of($request->header('content-type'))->contains("application/json")) {
 //                return new Response('', 415);
-                return response()->json([
-                    'errors' => [
-                        [
-                            'title' => 'Header missing value or wrong value',
-                            'details' => 'Header missing content-type:application/json',
-                        ]
-                    ]
-                ], 415,['content-type' => 'application/json']);
+                throw  new \Error("Header missing content-type:application/json", 415);
+//                return response()->json([
+//                    'errors' => [
+//                        [
+//                            'title' => 'Header missing value or wrong value',
+//                            'details' => 'Header missing content-type:application/json',
+//                        ]
+//                    ]
+//                ], 415,['content-type' => 'application/json']);
             }
         }
         return $this->addCorrectContentType($next($request));
