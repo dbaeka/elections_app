@@ -23,8 +23,8 @@ class ImageFile extends AbstractAPIModel
     public function allowedAttributes()
     {
         $image = parent::allowedAttributes();
-        $path = $image->get('file_path');
-        return $image->replace(['file_path' => asset($path)]);
+        $path = $image->get('name');
+        return $image->replace(['file_path' => url("/api/v1/get_image/" . $path)]);
     }
 
     public function result()
