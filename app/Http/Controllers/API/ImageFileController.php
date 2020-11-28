@@ -99,7 +99,7 @@ class ImageFileController extends APIController
         $user = $request->user();
         $result_id = $attributes->get('result_id');
         $station = $user->stations()->firstOrFail();
-        $result = ($result_id) ? Result::findOrFail($result_id) : $user->results()->latest();
+        $result = ($result_id) ? Result::findOrFail($result_id) : $user->results()->latest()->first();
         $originalName = $attributes['filename'];
         $fileName = $this->generateFileName($station->name) . '.' . File::extension($originalName);
 
