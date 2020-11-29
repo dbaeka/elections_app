@@ -64,9 +64,9 @@ class ImageFileController extends APIController
         //save file
         $user = $request->user();
         $result_id = $request->result_id;
-        $station = $user->stations()->firstOrFail();
-        $result = ($result_id) ? Result::findOrFail($result_id)->first() : $user->results()->latest()->first();
-        $fileName = $this->generateFileName($station->name) . '.' . $file->extension();
+        $station = $user->stations()->first();
+        $result = ($result_id) ? Result::find($result_id)->first() : $user->results()->latest()->first();
+        $fileName = ($station)?$this->generateFileName($station->name):$file->getClientOriginalName() . '.' . $file->extension();
 
         $filePath = $file->storeAs('uploads', $fileName);
 
@@ -98,10 +98,10 @@ class ImageFileController extends APIController
         //save file
         $user = $request->user();
         $result_id = $attributes->get('result_id');
-        $station = $user->stations()->firstOrFail();
-        $result = ($result_id) ? Result::findOrFail($result_id) : $user->results()->latest()->first();
+        $station = $user->stations()->first();
+        $result = ($result_id) ? Result::find($result_id) : $user->results()->latest()->first();
         $originalName = $attributes['filename'];
-        $fileName = $this->generateFileName($station->name) . '.' . File::extension($originalName);
+        $fileName = ($station) ? $this->generateFileName($station->name) : File::name($originalName) . '.' . File::extension($originalName);
 
         $filePath = "uploads/" . $fileName;
         if (!Storage::put($filePath, $file->stream()))

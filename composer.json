@@ -69,9 +69,6 @@
         "tinker-about": [
             "@php artisan tinker"
         ],
-        "post-install-cmd": [
-            "@setup-dev"
-        ],
         "seed-database": [
             "@php artisan migrate --seed"
         ],

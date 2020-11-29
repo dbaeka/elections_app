@@ -26,7 +26,7 @@ class ResultObserver
     public function created(Result $result)
     {
         //
-        $deviceTokens = User::where('role', 'engine')->orWhere('role', 'admin')->pluck('fcm_token')->all();
+        $deviceTokens = User::where('role', 'engine')->orWhere('role', 'display')->pluck('fcm_token')->all();
         $this->deliverMessage("created_result", $result, $deviceTokens);
     }
 
@@ -41,7 +41,7 @@ class ResultObserver
         //
         $changedApproved = in_array('is_approved', $result->getChanges());
         $deviceTokens = $changedApproved ?
-            User::where('role', 'engine')->orWhere('role', 'display')->orWhere('role', 'admin')->pluck('fcm_token')->all()
+            User::where('role', 'display')->orWhere('role', 'admin')->pluck('fcm_token')->all()
             :
             User::where('role', 'engine')->orWhere('role', 'admin')->pluck('fcm_token')->all();
         $message = $changedApproved ? 'updated_is_approved' : 'updated_results';
