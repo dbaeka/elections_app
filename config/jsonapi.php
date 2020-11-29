@@ -50,13 +50,14 @@ return [
         ],
         'results' => [
             'allowedSorts' => [
-                'is_approved', 'created_at', 'updated_at',
+                'is_approved', 'created_at', 'station_code', 'updated_at',
             ],
             'allowedIncludes' => [
                 'users', 'images',
             ],
             'allowedFilters' => [
                 AllowedFilter::exact('is_approved'),
+                AllowedFilter::partial('station_code'),
             ],
             'relationships' => [
                 [
@@ -71,9 +72,13 @@ return [
             'validationRules' => [
                 'create' => [
                     'data.attributes.records' => 'required|array',
+                    'data.attributes.remark' => 'sometimes|required|string',
+                    'data.attributes.stationId' => 'sometimes|required|string'
                 ],
                 'update' => [
-                    'data.attributes.records' => 'sometimes|required|array'
+                    'data.attributes.records' => 'sometimes|required|array',
+                    'data.attributes.remark' => 'sometimes|required|string',
+                    'data.attributes.stationId' => 'sometimes|required|string'
                 ]
             ],
         ],

@@ -26,7 +26,7 @@ class Result extends AbstractAPIModel
         return ResultsFactory::new();
     }
 
-    protected $fillable = ['records', 'is_approved'];
+    protected $fillable = ['records', 'is_approved', 'station_code', 'remark'];
 
 
     public function type()
@@ -68,4 +68,5 @@ class Result extends AbstractAPIModel
     {
         return $this->hasMany(ImageFile::class);
     }
+
 }

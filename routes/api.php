@@ -31,7 +31,7 @@ Route::prefix('api/v1')->group(function () {
         $request->validate([
             'phone' => 'required|regex:/^[0-9\-\(\)\/\+\s]*$/',
             'password' => 'required',
-//            'firebase_token' => 'required',
+            'fcm_token' => 'sometimes|required|string',
 //            'role' => 'required|in:polling,engine,display,admin'
         ]);
 
@@ -41,6 +41,14 @@ Route::prefix('api/v1')->group(function () {
             throw ValidationException::withMessages([
                 'password' => ["Incorrect password"]
             ]);
+        }
+        if ($user->role === "engine" || $user->role === "display") {
+            if (!$request->fcm_token)
+                throw ValidationException::withMessages([
+                    'fcm_token' => ["Firebase Messaging token required for defined user role"]
+                ]);
+            $user->fcm_token = $request->fcm_token;
+            $user->save();
         }
 
         $token = $user->createToken($request->phone, [$user->role, 'basic'])->plainTextToken;
