@@ -66,7 +66,8 @@ class ImageFileController extends APIController
         $result_id = $request->result_id;
         $station = $user->stations()->first();
         $result = ($result_id) ? Result::find($result_id)->first() : $user->results()->latest()->first();
-        $fileName = ($station)?$this->generateFileName($station->name):$file->getClientOriginalName() . '.' . $file->extension();
+        $name = ($station) ? $station->name : $file->getClientOriginalName();
+        $fileName = $this->generateFileName($name) . '.' . $file->extension();
 
         $filePath = $file->storeAs('uploads', $fileName);
 
@@ -100,8 +101,9 @@ class ImageFileController extends APIController
         $result_id = $attributes->get('result_id');
         $station = $user->stations()->first();
         $result = ($result_id) ? Result::find($result_id) : $user->results()->latest()->first();
-        $originalName = $attributes['filename'];
-        $fileName = ($station) ? $this->generateFileName($station->name) : File::name($originalName) . '.' . File::extension($originalName);
+        $clientName = $attributes['filename'];
+        $name = ($station) ? $station->name : File::name($clientName);
+        $fileName = $this->generateFileName($name) . '.' . File::extension($clientName);
 
         $filePath = "uploads/" . $fileName;
         if (!Storage::put($filePath, $file->stream()))
