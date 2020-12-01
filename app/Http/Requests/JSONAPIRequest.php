@@ -26,7 +26,7 @@ class JSONAPIRequest extends FormRequest
     {
         $rules = [
             'data' => 'required|array',
-            'data.id' => ($this->method() === 'PATCH') ? 'required|string' : 'string',
+            'data.id' => ($this->method() === 'PATCH') ? 'required|numeric' : 'string',
             'data.type' => ['required',Rule::in(array_keys(config('jsonapi.resources')))],
             'data.attributes' => 'required|array',
 
