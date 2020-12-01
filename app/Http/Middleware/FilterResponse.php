@@ -29,9 +29,11 @@ class FilterResponse
 
             if ($data->isNotEmpty()) {
                 $current_data = $current_data->toArray();
-                $current_data["data"] = $data->sortByDesc(function ($item, $key) {
-                    return $item->attributes->result_added_at;
-                });
+                $base = basename($request->getPathInfo());
+                if ($base !== "pending")
+                    $current_data["data"] = $data->sortByDesc(function ($item, $key) {
+                        return $item->attributes->result_added_at;
+                    });
             }
             $response->setData($current_data);
         }
