@@ -17,6 +17,7 @@ class CreateConstituenciesTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->integer('district_id')->nullable();
+            $table->unsignedBigInteger('num_voters')->nullable();
             $table->timestamps();
         });
     }

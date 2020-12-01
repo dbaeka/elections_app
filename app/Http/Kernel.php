@@ -44,6 +44,7 @@ class Kernel extends HttpKernel
         'api' => [
             'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+//            \App\Http\Middleware\FilterResponse::class,
         ],
     ];
 
@@ -66,5 +67,6 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'json.api.headers' => EnsureCorrectAPIHeaders::class,
+        'filter.response' => \App\Http\Middleware\FilterResponse::class,
     ];
 }

@@ -12,7 +12,7 @@ abstract class AbstractAPIModel extends Model
      */
     abstract public function type();
 
-    public function allowedAttributes()
+    public function allowedAttributes($type = null)
     {
         return collect($this->attributes)->filter(function ($item, $key) {
             return !collect($this->hidden)->contains($key) && $key !== 'id';

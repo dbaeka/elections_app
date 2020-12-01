@@ -34,6 +34,26 @@ class JSONAPIService
         return new JSONAPIResource($query);
     }
 
+    public function specialMultipleResources($model, $type,$base, $relation)
+    {
+        $condition = $base === "pending" ? "whereDoesntHave" : "whereHas";
+        $query = $model::with($relation)->{$condition}($relation, function ($query) use ($base) {
+            $baseQuery = $query->orderBy('results.created_at', 'desc');
+            if ($base === "new")
+                $baseQuery->where('is_approved', false);
+            elseif ($base === "old")
+                $baseQuery->where('is_approved', true);
+        });
+        if ($base === "new")
+            $query->where("approve_id", "=", "0");
+        $query = QueryBuilder::for($query)
+            ->allowedSorts(config("jsonapi.resources.{$type}.allowedSorts"))
+            ->allowedIncludes(config("jsonapi.resources.{$type}.allowedIncludes"))
+            ->allowedFilters(config("jsonapi.resources.{$type}.allowedFilters"))
+            ->jsonPaginate();
+        return new JSONAPICollection($query);
+    }
+
     public function fetchMultipleResources($model, $id = 0, $type = '')
     {
         if ($model instanceof Model) {

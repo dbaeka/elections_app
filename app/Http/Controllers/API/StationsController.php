@@ -17,10 +17,14 @@ class StationsController extends APIController
      */
     public function index()
     {
-        //
         return $this->service->fetchResources(Station::class, 'stations');
     }
 
+    public function some_index()
+    {
+        $type = basename(\request()->getPathInfo());
+        return $this->service->specialMultipleResources(Station::class, 'stations', $type, 'results');
+    }
 
     /**
      * Display the specified resource.

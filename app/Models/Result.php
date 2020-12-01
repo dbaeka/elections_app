@@ -7,9 +7,11 @@ use Database\Factories\ResultsFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+
 class Result extends AbstractAPIModel
 {
     use HasFactory;
+    use \Znck\Eloquent\Traits\BelongsToThrough;
 
     protected $casts = [
         'records' => 'array',
@@ -34,7 +36,7 @@ class Result extends AbstractAPIModel
         return 'results';
     }
 
-    public function allowedAttributes()
+    public function allowedAttributes($type=null)
     {
         $results = parent::allowedAttributes();
 //        $records = json_decode($results->get('records'));
@@ -69,4 +71,11 @@ class Result extends AbstractAPIModel
         return $this->hasMany(ImageFile::class);
     }
 
+    public function station(){
+        return $this->belongsToThrough(Station::class, User::class);
+    }
+
+    public function stations() {
+        $this->station();
+    }
 }

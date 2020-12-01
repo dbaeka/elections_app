@@ -21,8 +21,10 @@
         "sentry/sentry-laravel": "^2.2",
         "spatie/laravel-json-api-paginate": "^1.9",
         "spatie/laravel-query-builder": "^3.3",
+        "staudenmeir/belongs-to-through": "^2.5",
         "wackystudio/laravel-test-watcher": "^1.0",
-        "ext-http": "*"
+        "ext-http": "*",
+        "ext-json": "*"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

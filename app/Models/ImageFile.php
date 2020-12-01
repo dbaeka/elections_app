@@ -20,7 +20,7 @@ class ImageFile extends AbstractAPIModel
         return 'images';
     }
 
-    public function allowedAttributes()
+    public function allowedAttributes($type=null)
     {
         $image = parent::allowedAttributes();
         $path = $image->get('name');

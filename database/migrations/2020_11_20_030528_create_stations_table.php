@@ -18,7 +18,8 @@ class CreateStationsTable extends Migration
             $table->string('name');
             $table->string('code');
             $table->integer('constituency_id')->nullable();
-            $table->unsignedBigInteger('num_voters');
+            $table->integer('approve_id')->nullable();
+            $table->unsignedBigInteger('num_voters')->nullable();
             $table->timestamps();
         });
     }

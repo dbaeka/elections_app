@@ -15,14 +15,15 @@ class JSONAPIResource extends JsonResource
      * Transform the resource into an array.
      *
      * @param \Illuminate\Http\Request $request
-     * @return array
+     * @return array|void
      */
     public function toArray($request)
     {
+        $base = basename($request->getPathInfo());
         return [
             'id' => (string)$this->id,
             'type' => $this->type(),
-            'attributes' => $this->allowedAttributes(),
+            'attributes' => $this->allowedAttributes($base),
             'relationships' => $this->prepareRelationships(),
         ];
     }

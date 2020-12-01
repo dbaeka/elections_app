@@ -47,9 +47,10 @@ class ResultsController extends APIController
                 ]
             ]
         ];
-        $attributes =  $request->input('data.attributes');
-
+        $attributes = $request->input('data.attributes');
         $attributes['is_approved'] = false;
+        $station = $user->station();
+        $station->update(['approve_id'=>"0"]);
         return $this->service->createResource(Result::class, $attributes, $relationship);
     }
 
@@ -74,6 +75,17 @@ class ResultsController extends APIController
     public function update(JSONAPIRequest $request, Result $result)
     {
         //
-        return $this->service->updateResource($result, $request->input('data.attributes'), $request->input('data.relationships'), $request->input('data.id'));
+        $id = $request->input('data.id');
+        $attributes = $request->input('data.attributes');
+        if (key_exists("is_approved", $attributes)) {
+            $model = Result::findOrFail($id);
+            $station = $model->station();
+            $is_approved = $attributes["is_approved"];
+            if ($is_approved)
+                $station->update(['approve_id'=> $id]);
+            else
+                $station->update(['approve_id'=>"0"]);
+        }
+        return $this->service->updateResource($result, $attributes, $request->input('data.relationships'), $id);
     }
 }
