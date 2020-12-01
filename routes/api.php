@@ -123,6 +123,7 @@ Route::prefix('api/v1')->group(function () {
 
 
             //  Results
+            Route::get('/display_results', [\App\Http\Controllers\API\ResultsController::class, 'display_index']);
             Route::get('results', [\App\Http\Controllers\API\ResultsController::class, 'index'])->name('results.index');;
             Route::get('results/{result}', [\App\Http\Controllers\API\ResultsController::class, 'show'])->name('results.show');
             Route::get('/results/{result}/relationships/users', [\App\Http\Controllers\API\ResultsUsersRelationshipsController::class, 'index'])->name('results.relationships.users');

@@ -7,12 +7,14 @@ use App\Http\Resources\JSONAPICollection;
 use App\Http\Resources\JSONAPIIdentifierResource;
 use App\Http\Resources\JSONAPIResource;
 use App\Http\Resources\UserResource;
+use App\Models\Candidate;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Str;
 use Spatie\QueryBuilder\QueryBuilder;
+use function Symfony\Component\String\s;
 
 class JSONAPIService
 {
@@ -34,7 +36,7 @@ class JSONAPIService
         return new JSONAPIResource($query);
     }
 
-    public function specialMultipleResources($model, $type,$base, $relation)
+    public function specialMultipleResources($model, $type, $base, $relation)
     {
         $condition = $base === "pending" ? "whereDoesntHave" : "whereHas";
         $query = $model::with($relation)->{$condition}($relation, function ($query) use ($base) {
@@ -54,7 +56,52 @@ class JSONAPIService
         return new JSONAPICollection($query);
     }
 
-    public function fetchMultipleResources($model, $id = 0, $type = '')
+
+    public function fetchDisplayResources($model, $type)
+    {
+        $stations = $model::whereHas("results")->where("approve_id", ">", "0")->get();
+//        (function ($query) {
+//            return $query->orderBy('results.created_at', 'desc');
+//        });
+//        $results = $query->get()->pluck("results");
+        $results = $stations->load(['results' => function ($query) {
+            $query->select('records')->where('is_approved', true);
+        }])->pluck('results')->flatten(1)->pluck('records');
+        $final = $results->reduce(function ($result, $item) {
+            $keys = array_keys($item);
+            $sum = 0;
+            foreach ($keys as $key) {
+                if (array_key_exists($key, $result))
+                    $result[$key]["sum"] += $item[$key];
+                else
+                    $result[$key] = array(
+                        "sum" => $item[$key]
+                    );
+                $sum += $result[$key]["sum"];
+            }
+            foreach ($result as $key => $val) {
+                $result[$key]["percent"] = $val["sum"] / $sum;
+            }
+            return $result;
+        }, array());
+        $data = [];
+        foreach ($final as $key => $value){
+            $value["id"] = $key;
+            $candidate = Candidate::find($key);
+            $value["party_id"] = $candidate->party_id;
+            $value["party_name"] = $candidate->party()->value('name');
+            $value["party_short_name"] = $candidate->party()->value('short_name');
+            $value["pres_name"] = $candidate->pres;
+            $value["vice_name"] = $candidate->vice;
+            array_push($data, $value);
+        }
+        return response()->json([
+            'data' => $data
+        ]);
+    }
+
+    public
+    function fetchMultipleResources($model, $id = 0, $type = '')
     {
         if ($model instanceof Model) {
             return new JSONAPICollection($model);
@@ -71,7 +118,8 @@ class JSONAPIService
      * @param string $type
      * @return JSONAPICollection
      */
-    public function fetchResources(string $modelClass, string $type)
+    public
+    function fetchResources(string $modelClass, string $type)
     {
         $models = QueryBuilder::for($modelClass)
             ->allowedSorts(config("jsonapi.resources.{$type}.allowedSorts"))
@@ -81,7 +129,8 @@ class JSONAPIService
         return new JSONAPICollection($models);
     }
 
-    protected function handleRelationship(array $relationships, $model)
+    protected
+    function handleRelationship(array $relationships, $model)
     {
         foreach ($relationships as $relationshipName => $contents) {
             if ($model->$relationshipName() instanceof BelongsTo) {
@@ -102,7 +151,8 @@ class JSONAPIService
      * @param array|null $relationships
      * @return \Illuminate\Http\JsonResponse
      */
-    public function createResource(string $modelClass, array $attributes, array $relationships = null)
+    public
+    function createResource(string $modelClass, array $attributes, array $relationships = null)
     {
         $model = $modelClass::create($attributes);
         if ($relationships) {
@@ -124,7 +174,8 @@ class JSONAPIService
      * @param null $id
      * @return JSONAPIResource
      */
-    public function updateResource($model, $attributes, $relationships = null, $id = null)
+    public
+    function updateResource($model, $attributes, $relationships = null, $id = null)
     {
         $modelID = $model->id;
         if ($modelID === null) {
@@ -143,7 +194,8 @@ class JSONAPIService
      * @param $model
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
-    public function deleteResource($model)
+    public
+    function deleteResource($model)
     {
         $model->delete();
         return response(null, 204);
@@ -155,7 +207,8 @@ class JSONAPIService
      * @param string $relationship
      * @return JSONAPIIdentifierResource|\Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function fetchRelationship($model, string $relationship)
+    public
+    function fetchRelationship($model, string $relationship)
     {
         if ($model->$relationship instanceof Model) {
             return new JSONAPIIdentifierResource($model->$relationship);
@@ -170,13 +223,15 @@ class JSONAPIService
      * @param $ids
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
-    public function updateManyToManyRelationships($model, $relationship, $ids)
+    public
+    function updateManyToManyRelationships($model, $relationship, $ids)
     {
         $model->$relationship()->sync($ids);
         return response(null, 204);
     }
 
-    public function updateToOneRelationship($model, $relationship, $id)
+    public
+    function updateToOneRelationship($model, $relationship, $id)
     {
         $relatedModel = $model->$relationship()->getRelated();
         $model->$relationship()->dissociate();
@@ -188,7 +243,8 @@ class JSONAPIService
         return response(null, 204);
     }
 
-    public function updateToManyRelationships($model, $relationship, $ids)
+    public
+    function updateToManyRelationships($model, $relationship, $ids)
     {
         $foreignKey = $model->$relationship()->getForeignKeyName();
         $relatedModel = $model->$relationship()->getRelated();
@@ -211,7 +267,8 @@ class JSONAPIService
      * @param $relationship
      * @return JSONAPICollection|JSONAPIResource
      */
-    public function fetchRelated($model, $relationship)
+    public
+    function fetchRelated($model, $relationship)
     {
         if ($model->$relationship instanceof Model) {
             return new JSONAPIResource($model->$relationship);

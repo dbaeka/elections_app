@@ -8,6 +8,7 @@ use App\Http\Requests\JSONAPIRequest;
 use App\Http\Resources\JSONAPICollection;
 use App\Http\Resources\JSONAPIResource;
 use App\Models\Result;
+use App\Models\Station;
 use App\Services\JSONAPIService;
 use Illuminate\Http\Request;
 
@@ -31,6 +32,13 @@ class ResultsController extends APIController
         return $this->service->fetchResources(Result::class, 'results');
     }
 
+
+    public function display_index()
+    {
+        //
+        return $this->service->fetchDisplayResources(Station::class, 'results');
+    }
+
     /**
      * @param JSONAPIRequest $request
      * @return \Illuminate\Http\JsonResponse
@@ -50,7 +58,7 @@ class ResultsController extends APIController
         $attributes = $request->input('data.attributes');
         $attributes['is_approved'] = false;
         $station = $user->station();
-        $station->update(['approve_id'=>"0"]);
+        $station->update(['approve_id' => "0"]);
         return $this->service->createResource(Result::class, $attributes, $relationship);
     }
 
@@ -82,9 +90,9 @@ class ResultsController extends APIController
             $station = $model->station();
             $is_approved = $attributes["is_approved"];
             if ($is_approved)
-                $station->update(['approve_id'=> $id]);
+                $station->update(['approve_id' => $id]);
             else
-                $station->update(['approve_id'=>"0"]);
+                $station->update(['approve_id' => "0"]);
         }
         return $this->service->updateResource($result, $attributes, $request->input('data.relationships'), $id);
     }
