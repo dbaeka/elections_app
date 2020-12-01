@@ -71,14 +71,16 @@ class Station extends AbstractAPIModel
             elseif ($type === "old")
                 $baseQuery->where('is_approved', true);
         }])->results;
-        $records = collect($results->pluck('records')->first());
-        $firstRecords = $records->slice(0, 2);
-        $sumLastRecords = $records->slice(2)->sum();
-        $records = ($records->isNotEmpty()) ? $firstRecords->concat([3 => $sumLastRecords]) : [];
-        $stations->prepend($records, 'records');
-        $stations->prepend($results->pluck('id')->first(), 'recent_result');
-        $stations->prepend($results->pluck('created_at')->first(), 'result_added_at');
-        $stations->prepend($results->pluck('id'), 'results');
+        if ($type !== "pending") {
+            $records = collect($results->pluck('records')->first());
+            $firstRecords = $records->slice(0, 2);
+            $sumLastRecords = $records->slice(2)->sum();
+            $records = ($records->isNotEmpty()) ? $firstRecords->concat([3 => $sumLastRecords]) : [];
+            $stations->prepend($records, 'records');
+            $stations->prepend($results->pluck('id')->first(), 'recent_result');
+            $stations->prepend($results->pluck('created_at')->first(), 'result_added_at');
+            $stations->prepend($results->pluck('id'), 'results');
+        }
         return $stations;
     }
 }
