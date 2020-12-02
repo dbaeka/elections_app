@@ -26,6 +26,11 @@ class ResultObserver
     public function created(Result $result)
     {
         //
+        // Reset previous approved
+        $result_id = request()->user()->load(['results' => function ($query) {
+            $query->where("is_approved", true);
+        }])->results->pluck("id");
+        Result::whereIn('id', $result_id)->update(["is_approved" => false]);
         $deviceTokens = User::where('role', 'engine')->orWhere('role', 'display')->pluck('fcm_token')->all();
         $this->deliverMessage("created_result", $result, $deviceTokens);
     }
