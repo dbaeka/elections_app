@@ -174,7 +174,7 @@ Route::prefix('api/v1')->group(function () {
         });
 
         // For engine
-        Route::middleware(['sanctum.abilities:engine'])->group(function () {
+        Route::middleware(['sanctum.abilities:engine,admin'])->group(function () {
             //  Results
             Route::patch('results', [\App\Http\Controllers\API\ResultsController::class, 'update'])->name('results.update');
         });

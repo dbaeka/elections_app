@@ -94,6 +94,6 @@ class ResultsController extends APIController
             else
                 $station->update(['approve_id' => "0"]);
         }
-        return $this->service->updateResource($result, $attributes, $request->input('data.relationships'), $id);
+        return $this->service->updateResource($result, $attributes, $request->input('data.relationships'), $id, "results");
     }
 }

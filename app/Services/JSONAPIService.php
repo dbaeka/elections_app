@@ -9,6 +9,7 @@ use App\Http\Resources\JSONAPIResource;
 use App\Http\Resources\UserResource;
 use App\Models\Candidate;
 use App\Models\User;
+use App\Observers\ResultObserver;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -80,12 +81,12 @@ class JSONAPIService
                 $sum += $result[$key]["sum"];
             }
             foreach ($result as $key => $val) {
-                $result[$key]["percent"] = $val["sum"] / $sum;
+                $result[$key]["percent"] = number_format((100 * $val["sum"] / $sum), 2);
             }
             return $result;
         }, array());
         $data = [];
-        foreach ($final as $key => $value){
+        foreach ($final as $key => $value) {
             $value["id"] = $key;
             $candidate = Candidate::find($key);
             $value["party_id"] = $candidate->party_id;
@@ -96,7 +97,7 @@ class JSONAPIService
             array_push($data, $value);
         }
         return response()->json([
-            'data' => $data
+            'data' => collect($data)->sortBy('id')
         ]);
     }
 
@@ -172,16 +173,19 @@ class JSONAPIService
      * @param $attributes
      * @param null $relationships
      * @param null $id
+     * @param null $type
      * @return JSONAPIResource
      */
     public
-    function updateResource($model, $attributes, $relationships = null, $id = null)
+    function updateResource($model, $attributes, $relationships = null, $id = null, $type = null)
     {
         $modelID = $model->id;
         if ($modelID === null) {
             $model = $model::findOrFail($id);
         }
-        $model->update($attributes);
+        $status = $model->update($attributes);
+        if ($status && $type === "results")
+            event('eloquent.updated: App\Models\Result', [$model, true]);
         if ($relationships) {
             $this->handleRelationship($relationships, $model);
         }

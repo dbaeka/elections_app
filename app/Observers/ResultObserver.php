@@ -36,17 +36,17 @@ class ResultObserver
      * @param \App\Models\Result $result
      * @return void
      */
-    public function updated(Result $result)
+    public function updated(Result $result, $is_approve = null)
     {
         //
-        $changedApproved = in_array('is_approved', $result->getChanges());
-        $deviceTokens = $changedApproved ?
+        $deviceTokens = $is_approve ?
             User::where('role', 'display')->orWhere('role', 'admin')->pluck('fcm_token')->all()
             :
             User::where('role', 'engine')->orWhere('role', 'admin')->pluck('fcm_token')->all();
-        $message = $changedApproved ? 'updated_is_approved' : 'updated_results';
+        $message = $is_approve ? 'updated_is_approved' : 'updated_results';
         $this->deliverMessage($message, $result, $deviceTokens);
     }
+
 
     private function deliverMessage($message, $result, $deviceTokens)
     {
