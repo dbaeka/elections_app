@@ -22,7 +22,6 @@
         "spatie/laravel-json-api-paginate": "^1.9",
         "spatie/laravel-query-builder": "^3.3",
         "staudenmeir/belongs-to-through": "^2.5",
-        "ext-http": "*",
         "ext-json": "*"
     },
     "require-dev": {
