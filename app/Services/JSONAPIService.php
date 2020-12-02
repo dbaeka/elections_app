@@ -88,6 +88,7 @@ class JSONAPIService
         $data = [];
         foreach ($final as $key => $value) {
             $value["id"] = $key;
+            $value["sum"] = number_format($value["sum"], 0);
             $candidate = Candidate::find($key);
             $value["party_id"] = $candidate->party_id;
             $value["party_name"] = $candidate->party()->value('name');
