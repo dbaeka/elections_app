@@ -72,12 +72,12 @@ return [
             'validationRules' => [
                 'create' => [
                     'data.attributes.records' => 'required|array',
-                    'data.attributes.remark' => 'sometimes|required|string',
+//                    'data.attributes.remark' => 'sometimes|required|string',
                     'data.attributes.stationId' => 'sometimes|required|string'
                 ],
                 'update' => [
                     'data.attributes.records' => 'sometimes|required|array',
-                    'data.attributes.remark' => 'sometimes|required|string',
+//                    'data.attributes.remark' => 'sometimes|required|string',
                     'data.attributes.stationId' => 'sometimes|required|string'
                 ]
             ],
