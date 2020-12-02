@@ -8,6 +8,7 @@ use App\Http\Resources\JSONAPIIdentifierResource;
 use App\Http\Resources\JSONAPIResource;
 use App\Http\Resources\UserResource;
 use App\Models\Candidate;
+use App\Models\Result;
 use App\Models\User;
 use App\Observers\ResultObserver;
 use Illuminate\Database\Eloquent\Model;
@@ -60,14 +61,11 @@ class JSONAPIService
 
     public function fetchDisplayResources($model, $type)
     {
-        $stations = $model::whereHas("results")->where("approve_id", ">", "0")->get();
-//        (function ($query) {
-//            return $query->orderBy('results.created_at', 'desc');
-//        });
-//        $results = $query->get()->pluck("results");
-        $results = $stations->load(['results' => function ($query) {
-            $query->select('records')->where('is_approved', true);
-        }])->pluck('results')->flatten(1)->pluck('records');
+        $stations = $model::whereHas("results")->where("approve_id", ">", "0")->pluck('approve_id');
+        $results = Result::whereIn('id', $stations)->pluck('records');
+//        $results = $stations->load(['results' => function ($query) {
+//            $query->select('records')->where('is_approved', true);
+//        }])->pluck('results')->flatten(1)->pluck('records');
         $final = $results->reduce(function ($result, $item) {
             $keys = array_keys($item);
             $sum = 0;
