@@ -112,8 +112,8 @@ Route::prefix('api/v1')->group(function () {
             Route::get('/parties/{party}/candidates', [\App\Http\Controllers\API\PartiesCandidatesRelatedController::class, 'show'])->name('parties.candidates');
 
             //  Stations
-            Route::get('/stations/new', [\App\Http\Controllers\API\StationsController::class, 'some_index'])->middleware(['filter.response']);
-            Route::get('/stations/old', [\App\Http\Controllers\API\StationsController::class, 'some_index'])->middleware(['filter.response']);
+            Route::get('/stations/new', [\App\Http\Controllers\API\StationsController::class, 'some_index']);//->middleware(['filter.response']);
+            Route::get('/stations/old', [\App\Http\Controllers\API\StationsController::class, 'some_index']);//->middleware(['filter.response']);
             Route::get('/stations/pending', [\App\Http\Controllers\API\StationsController::class, 'some_index'])->middleware(['filter.response']);
             Route::apiResource('stations', \App\Http\Controllers\API\StationsController::class);
             Route::get('/stations/{station}/relationships/users', [\App\Http\Controllers\API\StationsUsersRelationshipsController::class, 'index'])->name('stations.relationships.users');

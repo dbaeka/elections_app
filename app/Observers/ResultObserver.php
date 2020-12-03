@@ -27,11 +27,15 @@ class ResultObserver
     {
         //
         // Reset previous approved
-        $result_id = request()->user()->load(['results' => function ($query) {
-            $query->where("is_approved", true);
-        }])->results->pluck("id");
-        Result::whereIn('id', $result_id)->update(["is_approved" => false]);
-        $deviceTokens = User::where('role', 'engine')->orWhere('role', 'display')->pluck('fcm_token')->all();
+//        $result_id = request()->user()->load(['results' => function ($query) {
+//            $query->where("is_approved", true);
+//        }])->results->pluck("id");
+//        Result::whereIn('id', $result_id)->update(["is_approved" => false]);
+        $id = $result->id;
+        $user = request()->user();
+        $station = $user->station();
+        $station->update(['approve_id' => $id]);
+        $deviceTokens = User::where('role', 'engine')->orWhere('role', 'display')->orWhere('role','admin')->pluck('fcm_token')->all();
         $this->deliverMessage("created_result", $result, $deviceTokens);
     }
 
