@@ -161,6 +161,28 @@ return [
             ],
             'validationRules' => [],
         ],
+        'pm_candidates' => [
+            'allowedSorts' => [
+                'name', 'created_at', 'updated_at',
+            ],
+            'allowedIncludes' => [
+                'parties', 'constituencies'
+            ],
+            'allowedFilters' => [
+                AllowedFilter::partial('name'),
+            ],
+            'relationships' => [
+                [
+                    'type' => 'parties',
+                    'method' => 'parties',
+                ],
+                [
+                    'type' => 'constituencies',
+                    'method' => 'constituencies',
+                ]
+            ],
+            'validationRules' => [],
+        ],
         'regions' => [
             'allowedSorts' => [
                 'name', 'capital', 'created_at', 'updated_at',

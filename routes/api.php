@@ -107,6 +107,13 @@ Route::prefix('api/v1')->group(function () {
             Route::get('/candidates/{candidate}/parties', [\App\Http\Controllers\API\CandidatesPartiesRelatedController::class, 'show'])->name('candidates.parties');
 
 
+            Route::apiResource('pm_candidates', \App\Http\Controllers\API\PMCandidatesController::class);
+            Route::get('/pm_candidates/{pm_candidate}/relationships/parties', [\App\Http\Controllers\API\PMCandidatesPartiesRelationshipsController::class, 'index'])->name('pm_candidates.relationships.parties');
+            Route::get('/pm_candidates/{pm_candidate}/parties', [\App\Http\Controllers\API\PMCandidatesPartiesRelatedController::class, 'show'])->name('pm_candidates.parties');
+            Route::get('/pm_candidates/{pm_candidate}/relationships/constituencies', [\App\Http\Controllers\API\PMCandidatesConstituenciesRelationshipsController::class, 'index'])->name('pm_candidates.relationships.constituencies');
+            Route::get('/pm_candidates/{pm_candidate}/constituencies', [\App\Http\Controllers\API\PMCandidatesConstituenciesRelatedController::class, 'show'])->name('pm_candidates.constituencies');
+
+
             // Parties
             Route::apiResource('parties', \App\Http\Controllers\API\PartiesController::class);
             Route::get('/parties/{party}/relationships/candidates', [\App\Http\Controllers\API\PartiesCandidatesRelationshipsController::class, 'index'])->name('parties.relationships.candidates');

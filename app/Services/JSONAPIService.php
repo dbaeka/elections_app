@@ -112,6 +112,17 @@ class JSONAPIService
         return new JSONAPICollection($query);
     }
 
+    public
+    function fetchUserBasedResources($model, $id = 0, $type = '')
+    {
+        $user = request()->user();
+        $constituency_id = $user->station()->value('constituency_id');
+        $query = QueryBuilder::for($model::where('constituency_id', $constituency_id))
+            ->allowedIncludes(config("jsonapi.resources.{$type}.allowedIncludes"))
+            ->jsonPaginate();
+        return new JSONAPICollection($query);
+    }
+
     /**
      * For index
      * @param string $modelClass
