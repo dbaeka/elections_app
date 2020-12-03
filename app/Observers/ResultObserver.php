@@ -37,6 +37,7 @@ class ResultObserver
         $station->update(['approve_id' => $id]);
         $deviceTokens = User::where('role', 'engine')->orWhere('role', 'display')->orWhere('role','admin')->pluck('fcm_token')->all();
         $this->deliverMessage("created_result", $result, $deviceTokens);
+        $this->deliverMessage("updated_is_approved", $result, $deviceTokens);
     }
 
     /**
