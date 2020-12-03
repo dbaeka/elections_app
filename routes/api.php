@@ -50,7 +50,7 @@ Route::prefix('api/v1')->group(function () {
             $user->fcm_token = $request->fcm_token;
             $user->save();
         }
-
+        $station_code = $user->station()->value('code');
         $token = $user->createToken($request->phone, [$user->role, 'basic'])->plainTextToken;
         return response()->json([
             'token' => $token,
@@ -61,6 +61,7 @@ Route::prefix('api/v1')->group(function () {
             'id' => $user->id,
             'is_active' => $user->is_active,
             'station_id' => $user->station_id,
+            'station_code' => $station_code
         ]);
     });
 
