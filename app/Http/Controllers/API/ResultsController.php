@@ -57,6 +57,8 @@ class ResultsController extends APIController
         ];
         $attributes = $request->input('data.attributes');
         $attributes['is_approved'] = false;
+        $station = $user->station();
+        $station->update(['approve_id' => "0"]);
         return $this->service->createResource(Result::class, $attributes, $relationship);
     }
 

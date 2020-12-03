@@ -49,7 +49,7 @@ class JSONAPIService
                 $baseQuery->where('is_approved', true);
         });
         if ($base === "new")
-            $query->where("approve_id", ">", "0");
+            $query->where("approve_id", "=", "0");
         $query = QueryBuilder::for($query)
             ->allowedSorts(config("jsonapi.resources.{$type}.allowedSorts"))
             ->allowedIncludes(config("jsonapi.resources.{$type}.allowedIncludes"))
