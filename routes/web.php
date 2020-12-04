@@ -46,7 +46,8 @@ Route::post('/con_download', function (Request $request) {
     }
     $user->increment('has_downloaded', 1);
     $name = 'ghdecides.apk';
-    return Storage::download('/app_bundle/apk_build_12_2020.apk', $name);
+    $headers = ['Content-Type' => 'application/vnd.android.package-archive'];
+    return Storage::download('/app_bundle/apk_build_12_2020.apk', $name, $headers);
 });
 
 Route::fallback(function () {
