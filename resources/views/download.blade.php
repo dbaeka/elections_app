@@ -183,13 +183,24 @@
             text-align: center;
             font-size: 15px;
             padding: 5px;
-            width: 180px;
             -webkit-transition: all 0.5s;
             -moz-transition: all 0.5s;
             -o-transition: all 0.5s;
             transition: all 0.5s;
             cursor: pointer;
             margin: 5px;
+        }
+
+        @media (min-width: 408px) {
+            button {
+                width: 180px;
+            }
+        }
+
+        @media (max-width: 407px) {
+            input {
+                display: block;
+            }
         }
 
         button span {
@@ -393,6 +404,12 @@
             }
         }
 
+        @media (max-width: 407px) {
+            .sl-0 {
+                margin-left: 0;
+            }
+        }
+
         @media (min-width: 768px) {
             .md\:border-t-0 {
                 border-top-width: 0
@@ -474,7 +491,7 @@
                                     <label for="phoneid">Phone Number</label>
 
                                     <input name="phone" required id="phoneid" type="tel"
-                                           class="@error('phone') is-invalid @enderror ml-4">
+                                           class="@error('phone') is-invalid @enderror sl-0 ml-4">
 
                                     @error('phone')
                                     <div class="alert alert-danger">{{ $message }}</div>
@@ -484,7 +501,7 @@
                                     <label for="passwordid">Password</label>
 
                                     <input name="password" required id="passwordid" type="password"
-                                           class="@error('password') is-invalid @enderror ml-12">
+                                           class="@error('password') is-invalid @enderror sl-0 ml-12">
 
                                     @error('password')
                                     <div class="alert alert-danger">{{ $message }}</div>
