@@ -32,7 +32,6 @@ Route::prefix('api/v1')->group(function () {
             'phone' => 'required|regex:/^[0-9\-\(\)\/\+\s]*$/',
             'password' => 'required',
             'fcm_token' => 'sometimes|required|string',
-//            'role' => 'required|in:polling,engine,display,admin'
         ]);
 
         $user = User::where('phone', $request->phone)->first();
