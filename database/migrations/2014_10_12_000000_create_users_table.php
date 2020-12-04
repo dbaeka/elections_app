@@ -24,6 +24,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('phone')->unique();
             $table->boolean('is_active')->nullable();
+            $table->integer('has_downloaded')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

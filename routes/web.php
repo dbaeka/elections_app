@@ -1,6 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
+use App\Models\User;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,6 +20,34 @@ use Illuminate\Support\Facades\Route;
 //Route::get('/', function () {
 //    return view('welcome');
 //});
+
+Route::get('/download', function () {
+    return view('download');
+});
+
+Route::post('/con_download', function (Request $request) {
+    $request->validate([
+        'phone' => 'required|regex:/^[0-9\-\(\)\/\+\s]*$/|exists:users,phone',
+        'password' => 'required',
+    ]);
+
+    $user = User::where('phone', $request->phone)->first();
+
+    if (!$user || !Hash::check($request->password, $user->password)) {
+        throw ValidationException::withMessages([
+            'password' => ["Incorrect password"]
+        ]);
+    }
+
+    if (!($user->role === "polling" || $user->role === "admin")) {
+        throw ValidationException::withMessages([
+            'user' => ["User not available to download"]
+        ]);
+    }
+    $user->increment('has_downloaded', 1);
+    $name = 'ghdecides.apk';
+    return Storage::download('/app_bundle/apk_build_12_2020.apk', $name);
+});
 
 Route::fallback(function () {
     return response()->json([
