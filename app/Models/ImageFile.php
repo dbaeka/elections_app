@@ -36,4 +36,14 @@ class ImageFile extends AbstractAPIModel
     {
         return $this->result();
     }
+
+    public function pm_result()
+    {
+        return $this->belongsTo(PMResult::class);
+    }
+
+    public function pm_results()
+    {
+        return $this->pm_result();
+    }
 }

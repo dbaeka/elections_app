@@ -82,6 +82,40 @@ return [
                 ]
             ],
         ],
+        'pm_results' => [
+            'allowedSorts' => [
+                'is_approved', 'created_at', 'station_code', 'updated_at',
+            ],
+            'allowedIncludes' => [
+//                'users', 'images',
+            ],
+            'allowedFilters' => [
+                AllowedFilter::exact('is_approved'),
+                AllowedFilter::partial('station_code'),
+            ],
+            'relationships' => [
+//                [
+//                    'type' => 'users',
+//                    'method' => 'users',
+//                ],
+//                [
+//                    'type' => 'images',
+//                    'method' => 'images',
+//                ],
+            ],
+            'validationRules' => [
+                'create' => [
+                    'data.attributes.records' => 'required|array',
+//                    'data.attributes.remark' => 'sometimes|required|string',
+                    'data.attributes.station_code' => 'sometimes|required|string'
+                ],
+                'update' => [
+                    'data.attributes.records' => 'sometimes|required|array',
+//                    'data.attributes.remark' => 'sometimes|required|string',
+                    'data.attributes.station_code' => 'sometimes|required|string'
+                ]
+            ],
+        ],
         'images' => [
             'allowedSorts' => [
                 'name', 'created_at', 'updated_at',

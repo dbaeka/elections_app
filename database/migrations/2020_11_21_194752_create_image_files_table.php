@@ -18,6 +18,7 @@ class CreateImageFilesTable extends Migration
             $table->string('name')->nullable();
             $table->string('file_path')->nullable();
             $table->integer('result_id')->nullable();
+            $table->integer('pm_result_id')->nullable();
             $table->timestamps();
         });
     }

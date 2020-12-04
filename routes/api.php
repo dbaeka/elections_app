@@ -140,6 +140,10 @@ Route::prefix('api/v1')->group(function () {
             Route::get('/results/{result}/relationships/images', [\App\Http\Controllers\API\ResultsImagesRelationshipsController::class, 'index'])->name('results.relationships.images');
             Route::get('/results/{result}/images', [\App\Http\Controllers\API\ResultsImagesRelatedController::class, 'show'])->name('results.images');
 
+            // PM Results
+            Route::get('pm_results', [\App\Http\Controllers\API\PMResultsController::class, 'index'])->name('pm_results.index');;
+            Route::get('pm_results/{pm_result}', [\App\Http\Controllers\API\PMResultsController::class, 'show'])->name('pm_results.show');
+
 
             //  Images
             Route::get('/images', [\App\Http\Controllers\API\ImageFileController::class, 'index'])->name('images.index');
@@ -150,6 +154,8 @@ Route::prefix('api/v1')->group(function () {
 
             // Upload History
             Route::get('/upload_history', [\App\Http\Controllers\API\UploadHistoryController::class, 'index']);
+            Route::get('/pm_upload_history', [\App\Http\Controllers\API\UploadHistoryController::class, 'pm_index']);
+
 
             // Image get
             Route::get('/get_image/{filename}', [\App\Http\Controllers\API\ImageFileController::class, 'download'])
@@ -166,6 +172,13 @@ Route::prefix('api/v1')->group(function () {
             //  Images
             Route::post('/images', [\App\Http\Controllers\API\ImageFileController::class, 'fileUpload'])->withoutMiddleware(['json.api.headers']);
             Route::post('/images/base64', [\App\Http\Controllers\API\ImageFileController::class, 'fileBase64Upload']);
+
+            Route::post('/pm_images', [\App\Http\Controllers\API\ImageFileController::class, 'filePMUpload']);
+
+            // PM Results
+            Route::patch('pm_results', [\App\Http\Controllers\API\PMResultsController::class, 'update'])->name('pm_results.update');
+            Route::post('pm_results', [\App\Http\Controllers\API\PMResultsController::class, 'store'])->name('pm_results.store');
+
         });
 
         // For admin

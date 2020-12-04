@@ -95,4 +95,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Result::class);
     }
+
+    public function pm_results()
+    {
+        return $this->hasMany(PMResult::class);
+    }
 }

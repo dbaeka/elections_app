@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\PMResult;
 use App\Models\Result;
+use App\Observers\PMResultObserver;
 use App\Observers\ResultObserver;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
@@ -29,5 +31,6 @@ class AppServiceProvider extends ServiceProvider
         //
         URL::forceScheme('https');
         Result::observe(ResultObserver::class);
+        PMResult::observe(PMResultObserver::class);
     }
 }
