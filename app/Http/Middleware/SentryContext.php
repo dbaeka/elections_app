@@ -2,8 +2,10 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\Sanctum;
 use Sentry\Laravel\Tracing\Middleware;
@@ -26,12 +28,13 @@ class SentryContext
 
             // Add user context
             $bearerToken = Str::after($request->bearerToken(), "|");
-            $user = (!$bearerToken) ? null :
-                \App\Models\User::with(['tokens' => function ($query) use ($bearerToken) {
-                    $hashedToken = hash('sha256', $bearerToken);
-                    $query->where('token', $hashedToken);
-                }])->first();
-            if ($user && $user->exists()) {
+            $hashedToken = hash('sha256', $bearerToken);
+            $user_id = (!$bearerToken) ? null :
+                DB::table('personal_access_tokens')->where('token', $hashedToken)
+                    ->select('tokenable_id')->value('tokenable_id');
+
+            if ($user_id) {
+                $user = User::find($user_id);
                 $sentry->configureScope(function (\Sentry\State\Scope $scope) use ($user): void {
                     $scope->setTag(
                         'type', 'general'
