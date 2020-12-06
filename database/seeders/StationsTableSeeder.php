@@ -18,7 +18,7 @@ class StationsTableSeeder extends Seeder
     {
         //
         $file = database_path('seeders/defaults/stations.csv');
-        $csv_reader = new LargeCSVReader($file);
+        $csv_reader = new LargeCSVReader($file,",");
 
         $cur_time = now();
 

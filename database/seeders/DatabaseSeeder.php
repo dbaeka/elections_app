@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             PartiesTableSeeder::class,
             CandidatesTableSeeder::class,
             StationsTableSeeder::class,
+            PMCandidatesTableSeeder::class,
 
         ]);
     }

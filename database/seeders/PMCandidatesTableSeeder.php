@@ -2,11 +2,12 @@
 
 namespace Database\Seeders;
 
-use App\Models\District;
+
+use App\Models\PMCandidate;
 use App\Utilities\LargeCSVReader;
 use Illuminate\Database\Seeder;
 
-class DistrictsTableSeeder extends Seeder
+class PMCandidatesTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,7 +17,7 @@ class DistrictsTableSeeder extends Seeder
     public function run()
     {
         //
-        $file = database_path('seeders/defaults/districts.csv');
+        $file = database_path('seeders/defaults/pm_candidates.csv');
         $csv_reader = new LargeCSVReader($file,",");
 
         $cur_time = now();
@@ -28,7 +29,7 @@ class DistrictsTableSeeder extends Seeder
                 $data[$key]['created_at'] = $cur_time;
                 $data[$key]['updated_at'] = $cur_time;
             }
-            District::insert($data);
+            PMCandidate::insert($data);
         }
     }
 }

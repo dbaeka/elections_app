@@ -3,10 +3,11 @@ Jomoro,1
 Ellembele,2
 Evalue Ajomoro Gwira,3
 Ahanta West,4
-Sekondi,5
 Takoradi,5
+Sekondi,5
+Essikadu-Ketan,5
 Effia,6
-Kwesimintsim ,6
+Kwesimintsim,6
 Shama,7
 Wassa East,8
 Mpohor,9
@@ -16,12 +17,12 @@ Amenfi East,12
 Amenfi Central,13
 Amenfi West,14
 Komenda Edina Eguafo Abrem,15
-Cape Coast North,16
 Cape Coast South,16
-Abura-Asebu-Kwamankese,17
-Mfansteman,18
+Cape Coast North,16
+Abura Asebu Kwamankese,17
+Mfantseman,18
 Ekumfi,19
-Ajumako-Enyan-Esiam,20
+Ajumako Enyan Esiam,20
 Gomoa West,21
 Gomoa Central,22
 Gomoa East,23
@@ -30,7 +31,7 @@ Awutu Senya West,25
 Awutu Senya East,26
 Agona West,27
 Agona East,28
-Asikuma Odoben Brakwa,29
+Asikuma/Odoben/Brakwa,29
 Assin Central,30
 Assin North,31
 Assin South,32
@@ -38,43 +39,42 @@ Twifo Atti Morkwa,33
 Hemang Lower Denkyira,34
 Upper Denkyira East,35
 Upper Denkyira West,36
-Bortianor Ngleshie-Amanfrom,37
-Obom Domeabra,37
-Weija/Gbawe,38
-Anyaa Sowutuom,39
-Abokobi,40
-Amansaman,41
-Trobu ,41
-Dome Kwabenya,42
-La-Nkwantanang/Madina,43
+Bortianor-Ngleshie Amanfro,37
+Domeabra-Obom,37
+Weija-Gbawe,38
+Anyaa/Sowutuom,39
+Trobu,41
+Amasaman,41
+Dome/Kwabenya,42
+Madina,43
 Ayawaso East,44
 Ayawaso North,45
 Ayawaso Central,46
-Ayawaso West,47
-Odododiodoo,48
+Ayawaso West Wuogon,47
 Okaikwei South,48
-Ablekuma South ,48
-Okaikwei North,49
-Okaikwei Central,49
+Ablekuma South,48
+Odododiodioo,48
+Okaikwei  Central,49
+Okaikwei  North,49
 Ablekuma North,50
 Ablekuma Central,51
 Ablekuma West,52
 Korle Klottey,53
-La Dade-Kotopon,54
+Dadekotopon,54
 Ledzokuku,55
 Krowor,56
-Tema Central,57
 Tema East,57
-Tema-West,58
-Kpone Katamanso,59
+Tema Central,57
+Tema West,58
+Kpone-Katamanso,59
 Ashaiman,60
 Adentan,61
 Shai-Osudoku,62
-Ningo-Prampram,63
-Ada West,64
-Ada East,65
+Ningo Prampram,63
+Sege,64
+Ada,65
 Keta,66
-Anloga,67
+Anlo,67
 Ketu South,68
 Ketu North,69
 Akatsi South,70
@@ -83,13 +83,13 @@ South Tongu,72
 Central Tongu,73
 North Tongu,74
 Adaklu,75
-Agotime-Ziope,76
+Agotime Ziope,76
 Ho Central,77
 Ho West,78
 South Dayi,79
-Kpando ,80
+Kpando,80
 North Dayi,81
-Hohoe ,82
+Hohoe,82
 Afadjato South,83
 Asuogyaman,84
 Lower Manya Krobo,85
@@ -97,59 +97,60 @@ Upper Manya Krobo,86
 Yilo Krobo,87
 New Juaben South,88
 New Juaben North,89
-Akwapim North,90
+Akropong,90
 Okere,91
 Akuapem South,92
 Nsawam/Adoagyiri,93
 Suhum,94
 Ayensuano,95
-West Akim ,96
+Lower West Akim,96
 Upper West Akim,97
-Birim Central,98
-Asene/Akroso/Manso,99
+Akim Oda,98
+Asene/Manso/Akroso,99
 Birim South,100
 Achiase,101
-Akyemansa,102
-Kwaebibirem,103
-Denkyembuo,104
-Birim North,105
+Ofoase/Ayirebi,90
+Kade,103
+Akwatia,104
+Abirem,105
 Abuakwa South,106
-Abuakwa North ,107
+Abuakwa North,107
 Atiwa West,108
 Atiwa East,109
 Fanteakwa North,110
 Fanteakwa South,111
-Kwahu West,112
-Kwahu-South,113
+Nkawkaw,112
+Mpraeso,113
 Kwahu East,114
-Afram Plains North,115
+Kwahu Afram Plains North,115
 Afram Plains South,116
-Adansi South,117
+New Edubiase,117
 Akrofuom,118
-Adansi North,119
+Fomena,119
 Adansi Asokwa,120
 Obuasi West,121
 Obuasi East,122
 Bekwai,123
 Bosome Freho,124
-Amansie Central,125
+Odotobri,125
 Manso Nkwanta,126
-Manso Edubia,126
-Amansie South,127
+Manso Adubia,126
 Atwima Nwabiagya South,128
 Atwima Nwabiagya North,129
 Atwima Mponua,130
 Bosomtwe,131
 Atwima Kwanwoma,132
-Manhyia North ,133
-Manhyia South,133
-Kwadaso,134
+Bantama,133
 Nhyiaeso,134
-Old Tafo ,135
-Suame ,136
+Manhyia South,133
+Manhyia North,133
+Subin,133
+Kwadaso Municipal,134
+Old Tafo,135
+Suame,136
 Asokwa,137
 Oforikrom,138
-Asokore Mampong,139
+Asawase,133
 Kwabre East,140
 Afigya Kwabre South,141
 Afigya Kwabre North,142
@@ -158,17 +159,17 @@ Ejisu,144
 Asante Akim South,145
 Asante Akim Central,146
 Asante Akim North,147
-Sekyere-East,148
-Sekyere Kumawu,149
+Effiduase/Asokore,148
+Kumawu,149
 Sekyere Afram Plains,150
-Sekyere Central,151
-Mampong ,152
+Nsuta/Kwamang/Beposo,151
+Mampong,152
 Ejura Sekyedumase,153
-Sekyere South,154
-Offinso  South,155
+Afigya Seyere East,154
+Offinso South,155
 Offinso North,156
 Ahafo Ano South West,157
-Ahafo Ano South East,158
+Ahafo Ano South-East,158
 Ahafo Ano North,159
 Aowin,160
 Suaman,161
@@ -177,7 +178,7 @@ Sefwi Wiawso,163
 Sefwi Akontombra,164
 Juaboso,165
 Bodi,166
-Bia West ,167
+Bia West,167
 Bia East,168
 Asunafo South,169
 Asunafo North,170
@@ -185,7 +186,7 @@ Asutifi South,171
 Asutifi North,172
 Tano South,173
 Tano North,174
-Sunyani,175
+Sunyani East,175
 Sunyani West,176
 Dormaa West,177
 Dormaa Central,178
@@ -197,7 +198,7 @@ Jaman North,183
 Banda,184
 Tain,185
 Wenchi,186
-Techiman ,187
+Techiman South,187
 Kintampo North,188
 Kintampo South,189
 Nkoranza North,190
@@ -208,17 +209,17 @@ Pru East,194
 Sene West,195
 Sene East,196
 Techiman North,197
-Jasikan,198
+Buem,198
 Biakoye,199
-Kadjebi,200
+Akan,200
 Krachi East,201
 Krachi West,202
-Krachi-Nchumuru,203
+Krachi  Nchumuru,203
 Nkwanta South,204
 Nkwanta North,205
 Kpandai,206
-Nanumba North,207
-Nanumba South,208
+Bimbilla,207
+Wulesnsi,208
 Zabzugu,209
 Tatale/Sanguli,210
 Yendi,211
@@ -228,47 +229,46 @@ Gushegu,214
 Karaga,215
 Savelugu,216
 Nanton,217
-Tamale Central,218
 Tamale South,218
-Sagnarigu North ,219
-Sagnarigu East,219
+Tamale Central,218
+Sagnarigu,219
+Tamale North,218
 Tolon,220
 Kumbungu,221
-Bole,222
-Sawla/Tuna/Kalba,223
+Bole-Bamboi,222
+Sawla-Tuna-Kalba,223
 Damongo,224
-North Gonja,225
-Central Gonja,226
-East Gonja,227
-North East Gonja,228
+Daboya / Mankarigu,224
+Yapei/Kusawgu,226
+Salaga South,227
+Salaga North,228
 Wa Central,229
 Wa West,230
 Wa East,231
 Nadowli/Kaleo,232
 Daffiama/Bussie/Issa,233
-Jirapa ,234
+Jirapa,234
 Lambussie,235
-Lawra ,236
+Lawra,236
 Nandom,237
 Sissala West,238
-Sissala East ,239
-West Mamprusi,240
-Mamprugu/Moagduri,241
-Gambaga,242
-Nalierigu,242
-Bunkpurugu/Nakpanduri,243
-Yunyoo/Nasuan,244
+Sissala East,239
+Walewale,240
+Yagaba/ Kubori,241
+Nalerigu / Gambaga,242
+Bunkpurugu,243
+Yunyoo,244
 Chereponi,245
 Builsa South,246
-Builsa  North,247
-Kassena/Nankana East,248
-Kassena/Nankana West,249
+Builsa North,247
+Navrongo Central,248
+Chiana-Paga,249
 Bolgatanga Central,250
-Bolgatanga East,251
+Bolga East,251
 Bongo,252
 Talensi,253
 Nabdam,254
-Bawku West,255
+Zebilla,255
 Bawku Central,256
 Pusiga,257
 Garu,258
