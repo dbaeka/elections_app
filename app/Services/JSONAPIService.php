@@ -63,8 +63,10 @@ class JSONAPIService
     {
         $approved = $base === 'new' ? false : true;
         $query = '';
-        if ($base === 'old' || $base === 'new')
+        if ($base === 'new')
             $query = $model::where('is_latest', 1)->where('is_approved', $approved)->orderBy('created_at', 'desc');
+        elseif($base === 'old')
+            $query = $model::where('is_latest', 1)->where('is_approved', $approved)->where('media_checked', false)->orderBy('created_at', 'desc');
         elseif ($base === 'pending')
             $query = Station::with($type)->whereDoesntHave($type, function ($query) use($type) {
                 $query->orderBy("{$type}.created_at", "desc");
