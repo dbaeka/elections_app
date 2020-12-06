@@ -57,7 +57,7 @@ class ResultObserver
     {
         $message = CloudMessage::new()->withData([
             'message' => $message,
-            'data' => $result
+//            'data' => $result
         ]);
         try {
             $sendReport = $this->messaging->sendMulticast($message, $deviceTokens);
