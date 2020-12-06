@@ -9,6 +9,7 @@ use App\Http\Resources\JSONAPIResource;
 use App\Http\Resources\UserResource;
 use App\Models\Candidate;
 use App\Models\Result;
+use App\Models\Station;
 use App\Models\User;
 use App\Observers\ResultObserver;
 use Illuminate\Database\Eloquent\Model;
@@ -50,6 +51,26 @@ class JSONAPIService
         });
         if ($base === "new")
             $query->where("approve_id", "=", "0");
+        $query = QueryBuilder::for($query)
+            ->allowedSorts(config("jsonapi.resources.{$type}.allowedSorts"))
+            ->allowedIncludes(config("jsonapi.resources.{$type}.allowedIncludes"))
+            ->allowedFilters(config("jsonapi.resources.{$type}.allowedFilters"))
+            ->jsonPaginate();
+        return new JSONAPICollection($query);
+    }
+
+    public function fetchEngineResources($model, $type, $base)
+    {
+        $approved = $base === 'new' ? false : true;
+        $query = '';
+        if ($base === 'old' || $base === 'new')
+            $query = $model::where('is_latest', 1)->where('is_approved', $approved)->orderBy('created_at', 'desc');
+        elseif ($base === 'pending')
+            $query = Station::with($type)->whereDoesntHave($type, function ($query) use($type) {
+                $query->orderBy("{$type}.created_at", "desc");
+            });
+        elseif ($base === 'media')
+            $query = $model::where('media_checked', 1)->where('is_approved', true)->orderBy('created_at', 'desc');
         $query = QueryBuilder::for($query)
             ->allowedSorts(config("jsonapi.resources.{$type}.allowedSorts"))
             ->allowedIncludes(config("jsonapi.resources.{$type}.allowedIncludes"))
@@ -196,6 +217,8 @@ class JSONAPIService
         $status = $model->update($attributes);
         if ($status && $type === "results")
             event('eloquent.updated: App\Models\Result', [$model, true]);
+        if ($status && $type === "pm_results")
+            event('eloquent.updated: App\Models\PMResult', [$model, true]);
         if ($relationships) {
             $this->handleRelationship($relationships, $model);
         }

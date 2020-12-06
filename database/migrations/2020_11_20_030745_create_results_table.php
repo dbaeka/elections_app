@@ -18,8 +18,11 @@ class CreateResultsTable extends Migration
             $table->json('records');
             $table->text('remark')->nullable();
             $table->boolean('is_approved')->nullable();
+            $table->boolean('media_checked')->nullable();
             $table->string('station_code')->nullable();
             $table->uuid('user_id')->nullable();
+            $table->boolean('is_latest');
+            $table->integer('constituency_id')->nullable();
             $table->timestamps();
         });
     }

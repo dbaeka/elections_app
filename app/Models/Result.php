@@ -28,7 +28,7 @@ class Result extends AbstractAPIModel
         return ResultsFactory::new();
     }
 
-    protected $fillable = ['records', 'is_approved', 'station_code', 'remark'];
+    protected $fillable = ['records', 'is_approved', 'station_code', 'is_latest', 'remark', 'media_checked', 'user_id', 'constituency_id'];
 
 
     public function type()
@@ -36,14 +36,9 @@ class Result extends AbstractAPIModel
         return 'results';
     }
 
-    public function allowedAttributes($type=null)
+    public function allowedAttributes($type = null)
     {
         $results = parent::allowedAttributes();
-//        $records = json_decode($results->get('records'));
-//        foreach ($records as $key => $value) {
-//            $ca = Candidate::find($key)->pres;
-//            $p = 10;
-//        }
         $images = $this->load(['images' => function ($query) {
             $query->orderBy('created_at', 'desc');
         }])->images;
@@ -53,6 +48,20 @@ class Result extends AbstractAPIModel
         $latest = $paths->first();
         $results->prepend($paths, 'all_images');
         $results->prepend($latest, 'recent_image');
+
+        $constituency_id = $results->get('constituency_id');
+        $user_id = $results->get('user_id');
+
+//        $candidates = Candidate::select(['id', 'pres'])->get();
+//        $candidates = $candidates->mapWithKeys(function ($item) {
+//            return [$item['id'] => $item['pres']];
+//        });
+//        $results->prepend($candidates, 'candidates');
+
+        $station = User::find($user_id)->load('stations')->stations;
+        $results->prepend($station->value('code'), 'station_code');
+        $results->prepend($station->value('name'), 'station_name');
+
         return $results->replace(['records' => json_decode($results->get('records'))]);
     }
 
@@ -71,11 +80,23 @@ class Result extends AbstractAPIModel
         return $this->hasMany(ImageFile::class);
     }
 
-    public function station(){
+    public function station()
+    {
         return $this->belongsToThrough(Station::class, User::class);
     }
 
-    public function stations() {
+    public function stations()
+    {
         $this->station();
+    }
+
+    public function constituency()
+    {
+        return $this->belongsTo(Constituency::class);
+    }
+
+    public function constituencies()
+    {
+        $this->constituency();
     }
 }

@@ -28,7 +28,7 @@ class PMResult extends AbstractAPIModel
         return PMResultsFactory::new();
     }
 
-    protected $fillable = ['records', 'is_approved', 'station_code','is_latest', 'remark', 'user_id', 'constituency_id'];
+    protected $fillable = ['records', 'is_approved', 'station_code', 'is_latest', 'remark', 'media_checked', 'user_id', 'constituency_id'];
 
     protected $table = 'pm_results';
 
@@ -40,11 +40,6 @@ class PMResult extends AbstractAPIModel
     public function allowedAttributes($type = null)
     {
         $results = parent::allowedAttributes();
-//        $records = json_decode($results->get('records'));
-//        foreach ($records as $key => $value) {
-//            $ca = Candidate::find($key)->name;
-//            $p = 10;
-//        }
         $images = $this->load(['images' => function ($query) {
             $query->orderBy('created_at', 'desc');
         }])->images;
@@ -54,6 +49,20 @@ class PMResult extends AbstractAPIModel
         $latest = $paths->first();
         $results->prepend($paths, 'all_images');
         $results->prepend($latest, 'recent_image');
+
+        $constituency_id = $results->get('constituency_id');
+        $user_id = $results->get('user_id');
+
+        $candidates = PMCandidate::where('constituency_id', $constituency_id)->select(['id', 'name'])->get();
+        $candidates = $candidates->mapWithKeys(function ($item) {
+            return [$item['id'] => $item['name']];
+        });
+        $results->prepend($candidates, 'candidates');
+
+        $station = User::find($user_id)->load('stations')->stations;
+        $results->prepend($station->value('code'), 'station_code');
+        $results->prepend($station->value('name'), 'station_name');
+
         return $results->replace(['records' => json_decode($results->get('records'))]);
     }
 

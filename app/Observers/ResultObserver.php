@@ -27,10 +27,10 @@ class ResultObserver
     {
         //
         // Reset previous approved
-        $result_id = request()->user()->load(['results' => function ($query) {
-            $query->where("is_approved", true);
-        }])->results->pluck("id");
-        Result::whereIn('id', $result_id)->update(["is_approved" => false]);
+        $user_id = request()->user()->id;
+        Result::where('user_id', $user_id)->where('is_latest', true)->update(['is_latest' => false]);
+        $result->is_latest = true;
+        $result->save();
         $deviceTokens = User::where('role', 'engine')->orWhere('role', 'display')->pluck('fcm_token')->all();
         $this->deliverMessage("created_result", $result, $deviceTokens);
     }

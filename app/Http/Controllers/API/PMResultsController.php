@@ -33,6 +33,11 @@ class PMResultsController extends APIController
         return $this->service->fetchResources(PMResult::class, 'pm_results');
     }
 
+    public function some_index()
+    {
+        $type = basename(\request()->getPathInfo());
+        return $this->service->fetchEngineResources(PMResult::class, 'pm_results', $type);
+    }
 
     public function display_index()
     {
@@ -51,6 +56,7 @@ class PMResultsController extends APIController
         $attributes = $request->input('data.attributes');
         $attributes['is_approved'] = false;
         $attributes['is_latest'] = false;
+        $attributes['media_checked'] = false;
         $constituency_id = $user->station()->value('constituency_id');
         $attributes['constituency_id'] = $constituency_id;
         $attributes['user_id'] = $user->id;
@@ -75,11 +81,11 @@ class PMResultsController extends APIController
      * @param Result $result
      * @return JSONAPIResource
      */
-    public function update(JSONAPIRequest $request, Result $result)
+    public function update(JSONAPIRequest $request, PMResult $result)
     {
         //
         $id = $request->input('data.id');
         $attributes = $request->input('data.attributes');
-        return $this->service->updateResource($result, $attributes, $request->input('data.relationships'), $id, "results");
+        return $this->service->updateResource($result, $attributes, $request->input('data.relationships'), $id, "pm_results");
     }
 }

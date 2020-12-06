@@ -27,6 +27,14 @@ use \App\Http\Controllers\API\UsersController;
 
 
 Route::prefix('api/v1')->group(function () {
+
+    Route::post('/share_results', function (Request $request) {
+//        $request->validate();
+        return response()->json([
+            'token' => 'value',
+        ]);
+    });
+
     Route::post('/authenticate', function (Request $request) {
         $request->validate([
             'phone' => 'required|regex:/^[0-9\-\(\)\/\+\s]*$/',
@@ -119,9 +127,10 @@ Route::prefix('api/v1')->group(function () {
             Route::get('/parties/{party}/candidates', [\App\Http\Controllers\API\PartiesCandidatesRelatedController::class, 'show'])->name('parties.candidates');
 
             //  Stations
-            Route::get('/stations/new', [\App\Http\Controllers\API\StationsController::class, 'some_index']);//->middleware(['filter.response']);
-            Route::get('/stations/old', [\App\Http\Controllers\API\StationsController::class, 'some_index']);//->middleware(['filter.response']);
-            Route::get('/stations/pending', [\App\Http\Controllers\API\StationsController::class, 'some_index'])->middleware(['filter.response']);
+            Route::get('/stations/media', [\App\Http\Controllers\API\ResultsController::class, 'some_index']);//->middleware(['filter.response']);
+            Route::get('/stations/new', [\App\Http\Controllers\API\ResultsController::class, 'some_index']);//->middleware(['filter.response']);
+            Route::get('/stations/old', [\App\Http\Controllers\API\ResultsController::class, 'some_index']);//->middleware(['filter.response']);
+            Route::get('/stations/pending', [\App\Http\Controllers\API\ResultsController::class, 'some_index'])->middleware(['filter.response']);
             Route::apiResource('stations', \App\Http\Controllers\API\StationsController::class);
             Route::get('/stations/{station}/relationships/users', [\App\Http\Controllers\API\StationsUsersRelationshipsController::class, 'index'])->name('stations.relationships.users');
             Route::get('/stations/{station}/users', [\App\Http\Controllers\API\StationsUsersRelatedController::class, 'show'])->name('stations.users');
@@ -140,9 +149,12 @@ Route::prefix('api/v1')->group(function () {
             Route::get('/results/{result}/images', [\App\Http\Controllers\API\ResultsImagesRelatedController::class, 'show'])->name('results.images');
 
             // PM Results
+            Route::get('/pm_results/media', [\App\Http\Controllers\API\PMResultsController::class, 'some_index']);//->middleware(['filter.response']);
+            Route::get('/pm_results/new', [\App\Http\Controllers\API\PMResultsController::class, 'some_index']);//->middleware(['filter.response']);
+            Route::get('/pm_results/old', [\App\Http\Controllers\API\PMResultsController::class, 'some_index']);//->middleware(['filter.response']);
+            Route::get('/pm_results/pending', [\App\Http\Controllers\API\PMResultsController::class, 'some_index'])->middleware(['filter.response']);
             Route::get('pm_results', [\App\Http\Controllers\API\PMResultsController::class, 'index'])->name('pm_results.index');;
             Route::get('pm_results/{pm_result}', [\App\Http\Controllers\API\PMResultsController::class, 'show'])->name('pm_results.show');
-
 
             //  Images
             Route::get('/images', [\App\Http\Controllers\API\ImageFileController::class, 'index'])->name('images.index');
@@ -197,6 +209,9 @@ Route::prefix('api/v1')->group(function () {
         Route::middleware(['sanctum.abilities:engine,admin'])->group(function () {
             //  Results
             Route::patch('results', [\App\Http\Controllers\API\ResultsController::class, 'update'])->name('results.update');
+
+            Route::patch('pm_results', [\App\Http\Controllers\API\PMResultsController::class, 'update'])->name('pm_results.update');
+
         });
     });
 

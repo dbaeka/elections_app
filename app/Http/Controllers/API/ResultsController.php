@@ -32,6 +32,11 @@ class ResultsController extends APIController
         return $this->service->fetchResources(Result::class, 'results');
     }
 
+    public function some_index()
+    {
+        $type = basename(\request()->getPathInfo());
+        return $this->service->fetchEngineResources(Result::class, 'results', $type);
+    }
 
     public function display_index()
     {
@@ -47,19 +52,15 @@ class ResultsController extends APIController
     {
         //
         $user = $request->user();
-        $relationship = [
-            $user->type() => [
-                "data" => [
-                    "type" => $user->type(),
-                    "id" => $user->id,
-                ]
-            ]
-        ];
         $attributes = $request->input('data.attributes');
         $attributes['is_approved'] = false;
-        $station = $user->station();
-        $station->update(['approve_id' => "0"]);
-        return $this->service->createResource(Result::class, $attributes, $relationship);
+        $attributes['is_latest'] = false;
+        $attributes['media_checked'] = false;
+        $constituency_id = $user->station()->value('constituency_id');
+        $attributes['constituency_id'] = $constituency_id;
+        $attributes['user_id'] = $user->id;
+
+        return $this->service->createResource(Result::class, $attributes);
     }
 
     /**
@@ -85,15 +86,6 @@ class ResultsController extends APIController
         //
         $id = $request->input('data.id');
         $attributes = $request->input('data.attributes');
-        if (key_exists("is_approved", $attributes)) {
-            $model = Result::findOrFail($id);
-            $station = $model->station();
-            $is_approved = $attributes["is_approved"];
-            if ($is_approved)
-                $station->update(['approve_id' => $id]);
-            else
-                $station->update(['approve_id' => "0"]);
-        }
         return $this->service->updateResource($result, $attributes, $request->input('data.relationships'), $id, "results");
     }
 }

@@ -51,6 +51,11 @@ class Station extends AbstractAPIModel
         return $this->hasManyThrough('App\Models\Result', 'App\Models\User');
     }
 
+    public function pm_results()
+    {
+        return $this->hasManyThrough('App\Models\PMResult', 'App\Models\User');
+    }
+
     public function allowedAttributes($type = null)
     {
         $stations = parent::allowedAttributes();
