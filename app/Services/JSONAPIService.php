@@ -90,6 +90,7 @@ class JSONAPIService
 //        $results = $stations->load(['results' => function ($query) {
 //            $query->select('records')->where('is_approved', true);
 //        }])->pluck('results')->flatten(1)->pluck('records');
+        $total = 0;
         $final = $results->reduce(function ($result, $item) {
             $records = $item->records;
             $keys = array_keys($records);
@@ -123,9 +124,11 @@ class JSONAPIService
             "date" => date('l j M yy'),
             'time' => date('h:i:s A')
         ];
+        $total = 0;
         foreach ($final as $key => $value) {
             $value["id"] = $key;
             $value["sum"] = number_format($value["sum"], 0);
+            $total += $value["sum"];
             $candidate = ($key === "!others") ? Candidate::find($key) : null;
             if ($candidate) {
                 $value["party_id"] = $candidate->party_id;
@@ -136,6 +139,7 @@ class JSONAPIService
             }
             array_push($data, $value);
         }
+        $data['total'] = $total;
         return response()->json([
             'data' => collect($data)->sortBy('id'),
         ]);
