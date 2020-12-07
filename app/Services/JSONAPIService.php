@@ -115,7 +115,8 @@ class JSONAPIService
                     "sum" => $item->others,
                 );
             }
-            $result["others"]["percent"] = number_format((100 * $result["others"]["sum"] / $sum), 2);
+            $result["others"]["percent"] = number_format(100.0 -
+                (floatval($result[1]["percent"]) + floatval($result[2]["percent"])), 2);
             return $result;
         }, array());
         $data = [
