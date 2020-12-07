@@ -65,10 +65,10 @@ class JSONAPIService
         $query = '';
         if ($base === 'new')
             $query = $model::where('is_latest', 1)->where('is_approved', $approved)->orderBy('created_at', 'desc');
-        elseif($base === 'old')
+        elseif ($base === 'old')
             $query = $model::where('is_latest', 1)->where('is_approved', $approved)->where('media_checked', false)->orderBy('created_at', 'desc');
         elseif ($base === 'pending')
-            $query = Station::with($type)->whereDoesntHave($type, function ($query) use($type) {
+            $query = Station::with($type)->whereDoesntHave($type, function ($query) use ($type) {
                 $query->orderBy("{$type}.created_at", "desc");
             });
         elseif ($base === 'media')
@@ -155,7 +155,10 @@ class JSONAPIService
     public
     function fetchResources(string $modelClass, string $type)
     {
-        $models = QueryBuilder::for($modelClass)
+        $query = $modelClass;
+        if ($type === "results" || $type === "pm_results")
+            $query = $modelClass::where('is_latest', 1);
+        $models = QueryBuilder::for($query)
             ->allowedSorts(config("jsonapi.resources.{$type}.allowedSorts"))
             ->allowedIncludes(config("jsonapi.resources.{$type}.allowedIncludes"))
             ->allowedFilters(config("jsonapi.resources.{$type}.allowedFilters"))
