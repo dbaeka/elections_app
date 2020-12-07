@@ -128,7 +128,7 @@ class JSONAPIService
         foreach ($final as $key => $value) {
             $value["id"] = $key;
             $value["sum"] = number_format($value["sum"], 0);
-            $total += $value["sum"];
+            $total += intval(str_replace(",","",$value["sum"]));
             $candidate = ($key === "!others") ? Candidate::find($key) : null;
             if ($candidate) {
                 $value["party_id"] = $candidate->party_id;
