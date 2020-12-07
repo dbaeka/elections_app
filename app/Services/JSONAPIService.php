@@ -93,7 +93,7 @@ class JSONAPIService
         $final = $results->reduce(function ($result, $item) {
             $records = $item->records;
             $keys = array_keys($records);
-            $sum = $item->others;
+            $sum = 0;
             foreach ($keys as $key) {
                 if (array_key_exists($key, $result))
                     $result[$key]["sum"] += $records[$key];
@@ -103,14 +103,19 @@ class JSONAPIService
                     );
                 $sum += $result[$key]["sum"];
             }
+            $sum += +$item->others;
             foreach ($result as $key => $val) {
-                $result[$key]["percent"] = number_format((100 * $val["sum"] / $sum), 2);
+                if ($key !== "others")
+                    $result[$key]["percent"] = number_format((100 * $val["sum"] / $sum), 2);
             }
-            $result['others'] = [
-                "sum" => $item->others,
-                "percent" => number_format((100 * $item->others / $sum), 2)
-            ];
-
+            if (array_key_exists("others", $result)) {
+                $result["others"]["sum"] += $item->others;
+            } else {
+                $result["others"] = array(
+                    "sum" => $item->others,
+                );
+            }
+            $result["others"]["percent"] = number_format((100 * $result["others"]["sum"] / $sum), 2);
             return $result;
         }, array());
         $data = [];
@@ -128,7 +133,9 @@ class JSONAPIService
             array_push($data, $value);
         }
         return response()->json([
-            'data' => collect($data)->sortBy('id')
+            'data' => collect($data)->sortBy('id'),
+            'date' => date('l j M yy'),
+            'time' => date('h:i:s A')
         ]);
     }
 
