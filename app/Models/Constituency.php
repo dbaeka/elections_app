@@ -42,4 +42,9 @@ class Constituency extends AbstractAPIModel
     {
         return $this->hasMany(Station::class);
     }
+
+    public function regions()
+    {
+        return $this->hasOneThrough('App\Models\Region', 'App\Models\District');
+    }
 }
