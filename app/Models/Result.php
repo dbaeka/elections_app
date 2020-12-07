@@ -50,7 +50,7 @@ class Result extends AbstractAPIModel
         $results->prepend($latest, 'recent_image');
 
         $constituency_id = $results->get('constituency_id');
-        $user_id = $results->get('user_id');
+        $station_code = $results->get('station_code');
 
 //        $candidates = Candidate::select(['id', 'pres'])->get();
 //        $candidates = $candidates->mapWithKeys(function ($item) {
@@ -58,7 +58,7 @@ class Result extends AbstractAPIModel
 //        });
 //        $results->prepend($candidates, 'candidates');
 
-        $station = User::find($user_id)->load('stations')->stations;
+        $station = Station::where('code', $station_code);
         $results->prepend($station->value('code'), 'station_code');
         $results->prepend($station->value('name'), 'station_name');
 

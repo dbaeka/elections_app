@@ -84,38 +84,47 @@ class JSONAPIService
 
     public function fetchDisplayResources($model, $type)
     {
-        $stations = $model::whereHas("results")->where("approve_id", ">", "0")->pluck('approve_id');
-        $results = Result::whereIn('id', $stations)->pluck('records');
+//        $stations = $model::whereHas("results")->where("approve_id", ">", "0")->pluck('approve_id');
+//        $results = Result::whereIn('id', $stations)->pluck('records');
+        $results = Result::where('is_latest', true)->distinct('station_code')->select(['records', 'others'])->get();
 //        $results = $stations->load(['results' => function ($query) {
 //            $query->select('records')->where('is_approved', true);
 //        }])->pluck('results')->flatten(1)->pluck('records');
         $final = $results->reduce(function ($result, $item) {
-            $keys = array_keys($item);
-            $sum = 0;
+            $records = $item->records;
+            $keys = array_keys($records);
+            $sum = $item->others;
             foreach ($keys as $key) {
                 if (array_key_exists($key, $result))
-                    $result[$key]["sum"] += $item[$key];
+                    $result[$key]["sum"] += $records[$key];
                 else
                     $result[$key] = array(
-                        "sum" => $item[$key]
+                        "sum" => $records[$key]
                     );
                 $sum += $result[$key]["sum"];
             }
             foreach ($result as $key => $val) {
                 $result[$key]["percent"] = number_format((100 * $val["sum"] / $sum), 2);
             }
+            $result['others'] = [
+                "sum" => $item->others,
+                "percent" => number_format((100 * $item->others / $sum), 2)
+            ];
+
             return $result;
         }, array());
         $data = [];
         foreach ($final as $key => $value) {
             $value["id"] = $key;
             $value["sum"] = number_format($value["sum"], 0);
-            $candidate = Candidate::find($key);
-            $value["party_id"] = $candidate->party_id;
-            $value["party_name"] = $candidate->party()->value('name');
-            $value["party_short_name"] = $candidate->party()->value('short_name');
-            $value["pres_name"] = $candidate->pres;
-            $value["vice_name"] = $candidate->vice;
+            $candidate = ($key === "!others") ? Candidate::find($key) : null;
+            if ($candidate) {
+                $value["party_id"] = $candidate->party_id;
+                $value["party_name"] = $candidate->party()->value('name');
+                $value["party_short_name"] = $candidate->party()->value('short_name');
+                $value["pres_name"] = $candidate->pres;
+                $value["vice_name"] = $candidate->vice;
+            }
             array_push($data, $value);
         }
         return response()->json([

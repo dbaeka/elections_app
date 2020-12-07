@@ -60,7 +60,7 @@ class ResultsTableSeeder extends Seeder
         }
         // Push event notification to firebase
         $deviceTokens = User::where('role', 'engine')->orWhere('role', 'display')->pluck('fcm_token')->all();
-        $this->deliverMessage("added_result", $deviceTokens);
+        $this->deliverMessage("added_results", $deviceTokens);
     }
 
     private function deliverMessage($message, $deviceTokens)
