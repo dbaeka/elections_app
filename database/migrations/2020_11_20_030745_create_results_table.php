@@ -23,6 +23,7 @@ class CreateResultsTable extends Migration
             $table->uuid('user_id')->nullable();
             $table->boolean('is_latest');
             $table->integer('constituency_id')->nullable();
+            $table->bigInteger('others')->default(0);
             $table->timestamps();
         });
     }
