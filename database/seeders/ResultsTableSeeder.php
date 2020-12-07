@@ -48,10 +48,10 @@ class ResultsTableSeeder extends Seeder
                 $data[$key]['is_latest'] = true;
                 $data[$key]['media_checked'] = false;
                 $data[$key]['is_approved'] = false;
-                $station_key = array_keys($data[$key])[0];
-                $station_code = $data[$key][$station_key];
-                $data[$key]['station_code'] = $station_code;
-                unset($data[$key][$station_key]);
+//                $station_key = array_keys($data[$key])[0];
+                $station_code = $data[$key]['station_code'];
+//                $data[$key]['station_code'] = $station_code;
+//                unset($data[$key][$station_key]);
                 $constituency_id = Station::where('code', $station_code)->value('constituency_id');
                 $data[$key]['constituency_id'] = $constituency_id;
                 Result::where('station_code', $station_code)->where('is_latest', true)->update(['is_latest' => false]);

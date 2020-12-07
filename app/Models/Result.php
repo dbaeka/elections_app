@@ -58,9 +58,9 @@ class Result extends AbstractAPIModel
 //        });
 //        $results->prepend($candidates, 'candidates');
         $constituency = Constituency::find($constituency_id);
-        $c_name = $constituency->value('name');
-        $district_id = $constituency->value('district_id');
-        $region_name = District::find($district_id)->load('regions')->regions->value('name');
+        $c_name = $constituency->name;
+        $district_id = $constituency->district_id;
+        $region_name = District::find($district_id)->load('regions')->regions->name;
         $station = Station::where('code', $station_code);
         $results->prepend($station->value('code'), 'station_code');
         $results->prepend($station->value('name'), 'station_name');
