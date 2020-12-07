@@ -42,6 +42,10 @@ class ResultsTableSeeder extends Seeder
                 ];
                 unset($data[$key]['npp']);
                 unset($data[$key]['ndc']);
+                $others = $data[$key]['others'];
+                if (empty($others)){
+                    $data[$key]['others'] = null;
+                }
                 $data[$key]['records'] = json_encode($records);
                 $data[$key]['created_at'] = $cur_time;
                 $data[$key]['updated_at'] = $cur_time;
