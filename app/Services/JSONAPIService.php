@@ -118,7 +118,10 @@ class JSONAPIService
             $result["others"]["percent"] = number_format((100 * $result["others"]["sum"] / $sum), 2);
             return $result;
         }, array());
-        $data = [];
+        $data = [
+            "date" => date('l j M yy'),
+            'time' => date('h:i:s A')
+        ];
         foreach ($final as $key => $value) {
             $value["id"] = $key;
             $value["sum"] = number_format($value["sum"], 0);
@@ -134,8 +137,6 @@ class JSONAPIService
         }
         return response()->json([
             'data' => collect($data)->sortBy('id'),
-            'date' => date('l j M yy'),
-            'time' => date('h:i:s A')
         ]);
     }
 
