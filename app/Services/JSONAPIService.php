@@ -104,11 +104,7 @@ class JSONAPIService
                     );
                 $sum += $result[$key]["sum"];
             }
-            $sum += +$item->others;
-            foreach ($result as $key => $val) {
-                if ($key !== "others")
-                    $result[$key]["percent"] = number_format((100 * $val["sum"] / $sum), 2);
-            }
+//            $sum += +$item->others;
             if (array_key_exists("others", $result)) {
                 $result["others"]["sum"] += $item->others;
             } else {
@@ -116,8 +112,8 @@ class JSONAPIService
                     "sum" => $item->others,
                 );
             }
-            $result["others"]["percent"] = number_format(100.0 -
-                (floatval($result[1]["percent"]) + floatval($result[2]["percent"])), 2);
+//            $result["others"]["percent"] = number_format(100.0 -
+//                (floatval($result[1]["percent"]) + floatval($result[2]["percent"])), 2);
             return $result;
         }, array());
         $data = [
@@ -128,7 +124,7 @@ class JSONAPIService
         foreach ($final as $key => $value) {
             $value["id"] = $key;
             $value["sum"] = number_format($value["sum"], 0);
-            $total += intval(str_replace(",","",$value["sum"]));
+            $total += intval(str_replace(",", "", $value["sum"]));
             $candidate = ($key === "!others") ? Candidate::find($key) : null;
             if ($candidate) {
                 $value["party_id"] = $candidate->party_id;
@@ -139,7 +135,12 @@ class JSONAPIService
             }
             array_push($data, $value);
         }
-        $data['total'] = number_format($total,0) . ' out of 17,029,971 registered voters';
+        foreach ($final as $key => $val) {
+//            $key -= 1;
+            $key = ($key === "others") ? "2" : $key - 1;
+            $data[$key]["percent"] = number_format((100 * $val["sum"] / $total), 2);
+        }
+        $data['total'] = number_format($total, 0) . ' out of 17,029,971 registered voters';
         return response()->json([
             'data' => collect($data)->sortBy('id'),
         ]);
