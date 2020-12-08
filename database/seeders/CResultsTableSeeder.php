@@ -44,7 +44,7 @@ class CResultsTableSeeder extends Seeder
                 unset($data[$key]['npp']);
                 unset($data[$key]['ndc']);
                 $others = $data[$key]['others'];
-                if (empty($others)){
+                if (empty($others)) {
                     $data[$key]['others'] = null;
                 }
                 $data[$key]['records'] = json_encode($records);
@@ -52,7 +52,8 @@ class CResultsTableSeeder extends Seeder
                 $data[$key]['updated_at'] = $cur_time;
                 $data[$key]['is_latest'] = true;
 //                if (array_key_exists('media_checked'))
-//                $data[$key]['media_checked'] = false;
+//                if ($data[$key]['media_checked'] == "0")
+//                    $data[$key]['media_checked'] = false;
                 $data[$key]['is_approved'] = false;
 //                $station_key = array_keys($data[$key])[0];
                 $station_code = $data[$key]['station_code'];
