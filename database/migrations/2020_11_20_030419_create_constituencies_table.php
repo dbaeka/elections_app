@@ -16,6 +16,7 @@ class CreateConstituenciesTable extends Migration
         Schema::create('constituencies', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
+            $table->string('code');
             $table->integer('district_id')->nullable();
             $table->unsignedBigInteger('num_voters')->nullable();
             $table->timestamps();

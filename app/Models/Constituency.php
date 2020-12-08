@@ -21,7 +21,7 @@ class Constituency extends AbstractAPIModel
         return ConstituenciesFactory::new();
     }
 
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'code'];
 
     public function type()
     {

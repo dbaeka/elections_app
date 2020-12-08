@@ -139,7 +139,7 @@ class JSONAPIService
             }
             array_push($data, $value);
         }
-        $data['total'] = $total . ' out of 17,029,971 registered voters';
+        $data['total'] = number_format($total,0) . ' out of 17,029,971 registered voters';
         return response()->json([
             'data' => collect($data)->sortBy('id'),
         ]);
